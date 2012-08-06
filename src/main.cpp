@@ -56,8 +56,5 @@ int main()
 
     // Terminate GLFW
     glfwTerminate();
-
-    // Exit program
-    return 0;
 }
 
