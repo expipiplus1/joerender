@@ -1,3 +1,9 @@
 [submodule "glfw"]
 	path = glfw
 	url = https://github.com/elmindreda/glfw.git
+[submodule "joemath"]
+	path = joemath
+	url = git@github.com:expipiplus1/joemath.git
+[submodule "joelang"]
+	path = joelang
+	url = git@github.com:expipiplus1/joelang.git
