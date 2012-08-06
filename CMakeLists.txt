@@ -73,3 +73,15 @@ set( GL_LIBS glfw ${GLFW_LIBRARIES} )
 
 target_link_libraries( joerender joelang ${GL_LIBS} )
 
+#
+# Various custom commands
+#
+
+add_custom_command(
+    OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/data/clear_blue.jfx
+    COMMAND ${CMAKE_COMMAND} -E copy ${CMAKE_CURRENT_SOURCE_DIR}/data/clear_blue.jfx ${CMAKE_CURRENT_BINARY_DIR}/data/clear_blue.jfx
+    MAIN_DEPENDENCY ${CMAKE_CURRENT_SOURCE_DIR}/data/clear_blue.jfx )
+
+add_custom_target( joerender_copy_files DEPENDS "${PROJECT_BINARY_DIR}/data/clear_blue.jfx" )
+add_dependencies( joerender joerender_copy_files )
+
