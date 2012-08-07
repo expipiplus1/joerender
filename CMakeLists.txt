@@ -47,6 +47,9 @@ add_subdirectory( joemath EXCLUDE_FROM_ALL )
 
 add_subdirectory( joelang EXCLUDE_FROM_ALL )
 
+set( joerender_LIBRARY_DIRS ${joelang_LIBRARY_DIRS} )
+link_directories( ${joerender_LIBRARY_DIRS} )
+
 #
 # CXX flags
 #
