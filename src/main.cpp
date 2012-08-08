@@ -9,6 +9,7 @@
 bool running = true;
 GLFWwindow window;
 const JoeLang::Technique* t = nullptr;
+JoeLang::Context context;
 
 void OnKeyInput( GLFWwindow window, int k, int action )
 {
@@ -76,7 +77,6 @@ bool InitializeJoeLang()
     //
     // Initialize JoeLang
     //
-    JoeLang::Context context;
     context.RegisterOpenGLStates();
     context.RegisterOpenGLActions();
     JoeLang::Effect* clear_blue =
