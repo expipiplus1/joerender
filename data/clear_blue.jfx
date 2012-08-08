@@ -6,7 +6,6 @@ float4 GetColor( const string color_string )
     return color_string == "blue" ? blue : red;
 }
 
-/*
 float4 VertexMain( float4 position )
 {
     return position;
@@ -16,7 +15,6 @@ float4 PixelMain( float4 position )
 {
     return position;
 }
-*/
 
 technique clear_blue
 {

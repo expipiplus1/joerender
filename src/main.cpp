@@ -10,7 +10,7 @@
 bool running = true;
 GLFWwindow window;
 const JoeLang::Technique* t = nullptr;
-JoeLang::Context context;
+JoeLang::Context* context;
 GLuint position_buffer;
 
 void OnKeyInput( GLFWwindow window, int k, int action )
@@ -32,7 +32,7 @@ bool InitializeGL()
     if( !glfwInit() )
     {
         std::cerr << "Failed to initialize GLFW\n";
-        return false; 
+        return false;
     }
 
 #if defined(__APPLE__)
@@ -79,10 +79,11 @@ bool InitializeJoeLang()
     //
     // Initialize JoeLang
     //
-    context.RegisterOpenGLStates();
-    context.RegisterOpenGLActions();
+    context = new JoeLang::Context();
+    context->RegisterOpenGLStates();
+    context->RegisterOpenGLActions();
     JoeLang::Effect* clear_blue =
-                          context.CreateEffectFromFile( "data/clear_blue.jfx" );
+                          context->CreateEffectFromFile( "data/clear_blue.jfx" );
     if( !clear_blue )
         return false;
 
@@ -90,9 +91,14 @@ bool InitializeJoeLang()
     return t;
 }
 
+void ReleaseJoeLang()
+{
+    delete context;
+}
+
 bool InitializeGLResources()
 {
-    const float vertex_positions[] = 
+    const float vertex_positions[] =
     {
         0.75f, 0.75f, 0.0f, 1.0f,
         0.75f, -0.75f, 0.0f, 1.0f,
@@ -138,6 +144,8 @@ int main()
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+    ReleaseJoeLang();
 
     // Terminate GLFW
     glfwTerminate();
