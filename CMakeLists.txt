@@ -35,13 +35,17 @@ set( joemath_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/joemath/include" )
 
 set( joelang_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/joelang/include" )
 
-set( glfw_INCLUDE_DIR    "${CMAKE_SOURCE_DIR}/glfw/include")
+set( glfw_INCLUDE_DIR    "${CMAKE_SOURCE_DIR}/glfw/include" )
+
+set( glee_INCLUDE_DIR    "${CMAKE_SOURCE_DIR}/glee/include" )
 
 #
 # submodules
 #
 
 add_subdirectory( glfw EXCLUDE_FROM_ALL )
+
+add_subdirectory( glee EXCLUDE_FROM_ALL )
 
 add_subdirectory( joemath EXCLUDE_FROM_ALL )
 
@@ -70,9 +74,9 @@ set( joerender_data_dir   data )
 
 add_executable( joerender ${joerender_sources} )
 
-include_directories( ${joemath_INCLUDE_DIR} ${joelang_INCLUDE_DIR} ${glfw_INCLUDE_DIR} )
+include_directories( ${joemath_INCLUDE_DIR} ${joelang_INCLUDE_DIR} ${glfw_INCLUDE_DIR} ${glee_INCLUDE_DIR} )
 
-set( GL_LIBS glfw ${GLFW_LIBRARIES} )
+set( GL_LIBS glfw libgleeStatic ${GLFW_LIBRARIES} )
 
 target_link_libraries( joerender joelang ${GL_LIBS} )
 

@@ -7,3 +7,6 @@
 [submodule "joelang"]
 	path = joelang
 	url = git@github.com:expipiplus1/joelang.git
+[submodule "glee"]
+	path = glee
+	url = ssh://jophish@glee.git.sourceforge.net/gitroot/glee/glee
