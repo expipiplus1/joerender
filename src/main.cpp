@@ -1,4 +1,5 @@
 #include <cassert>
+#include <chrono>
 #include <iostream>
 
 #include <GL/GLee.h>
@@ -65,7 +66,7 @@ bool InitializeGL()
                  std::endl;
 
     glfwSetInputMode( window, GLFW_KEY_REPEAT, GL_TRUE );
-    glfwSwapInterval( 1 );
+    //glfwSwapInterval( 1 );
 
     // Set callback functions
     glfwSetWindowCloseCallback( OnWindowClosed );
@@ -124,6 +125,11 @@ int main()
     if( !InitializeGLResources() )
         return -1;
 
+    std::chrono::high_resolution_clock clock;
+
+    auto old_time = clock.now();
+    char title[64];
+
     // Main loop
     while( running )
     {
@@ -139,6 +145,13 @@ int main()
 
             pass.ResetState();
         }
+
+        auto new_time = clock.now();
+        std::chrono::duration<float, std::milli> delta_time =
+                                                            new_time - old_time;
+        old_time = new_time;
+        std::snprintf( title, 64, "JoeRender -- %.5fms", delta_time.count() );
+        glfwSetWindowTitle( window, title );
 
         // Swap buffers
         glfwSwapBuffers(window);
