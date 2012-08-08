@@ -1,6 +1,8 @@
+#include <algorithm>
 #include <cassert>
 #include <chrono>
 #include <iostream>
+#include <string>
 
 #include <GL/GLee.h>
 #include <GL/glfw3.h>
@@ -10,9 +12,20 @@
 
 bool running = true;
 GLFWwindow window;
+
 const JoeLang::Technique* t = nullptr;
-JoeLang::Context* context;
+JoeLang::Context* context = nullptr;
+
+const std::string fragment_source =
+    "#version 150\n"
+    "out vec4 outputColor;\n"
+    "void main()\n"
+    "{\n"
+    "   outputColor = vec4(0.44, 0.85, 0.29, 1.0);\n"
+    "}\n";
+
 GLuint position_buffer;
+GLuint program;
 
 void OnKeyInput( GLFWwindow window, int k, int action )
 {
@@ -25,6 +38,71 @@ int OnWindowClosed(GLFWwindow window)
 {
     running = false;
     return GL_TRUE;
+}
+
+GLuint CreateShader( GLenum shader_type, const std::string &shader_source )
+{
+    GLuint shader = glCreateShader(shader_type);
+    const char* c = shader_source.c_str();
+    glShaderSource( shader, 1, &c, NULL );
+
+    glCompileShader(shader);
+
+    GLint status;
+    glGetShaderiv( shader, GL_COMPILE_STATUS, &status );
+    if (status == GL_FALSE)
+    {
+        GLint info_log_length;
+        glGetShaderiv( shader, GL_INFO_LOG_LENGTH, &info_log_length );
+
+        GLchar* info_log = new GLchar[info_log_length + 1];
+        glGetShaderInfoLog( shader, info_log_length, NULL, info_log );
+
+        std::cerr << "Compile error in shader: " << info_log << std::endl;
+        delete[] info_log;
+    }
+
+    return shader;
+}
+
+GLuint CreateProgram( const std::vector<GLuint> &shader_list )
+{
+    GLuint program = glCreateProgram();
+
+    for( auto s : shader_list )
+        glAttachShader( program, s );
+
+    glLinkProgram( program );
+
+    GLint status;
+    glGetProgramiv( program, GL_LINK_STATUS, &status );
+    if (status == GL_FALSE)
+    {
+        GLint info_log_length;
+        glGetProgramiv( program, GL_INFO_LOG_LENGTH, &info_log_length );
+
+        GLchar *info_log = new GLchar[info_log_length + 1];
+        glGetProgramInfoLog( program, info_log_length, NULL, info_log);
+
+        std::cerr << "Link error in program: " << info_log << std::endl;
+        delete[] info_log;
+    }
+
+    for( auto s : shader_list )
+        glDetachShader( program, s );
+
+    return program;
+}
+
+void InitializeProgram()
+{
+    std::vector<GLuint> shader_list;
+
+    shader_list.push_back( CreateShader( GL_FRAGMENT_SHADER, fragment_source ) );
+
+    program = CreateProgram( shader_list );
+
+    std::for_each( shader_list.begin(), shader_list.end(), glDeleteShader );
 }
 
 bool InitializeGL()
@@ -66,7 +144,7 @@ bool InitializeGL()
                  std::endl;
 
     glfwSetInputMode( window, GLFW_KEY_REPEAT, GL_TRUE );
-    //glfwSwapInterval( 1 );
+    glfwSwapInterval( 1 );
 
     // Set callback functions
     glfwSetWindowCloseCallback( OnWindowClosed );
@@ -84,7 +162,7 @@ bool InitializeJoeLang()
     context->RegisterOpenGLStates();
     context->RegisterOpenGLActions();
     JoeLang::Effect* clear_blue =
-                          context->CreateEffectFromFile( "data/clear_blue.jfx" );
+                         context->CreateEffectFromFile( "data/clear_blue.jfx" );
     if( !clear_blue )
         return false;
 
@@ -108,8 +186,13 @@ bool InitializeGLResources()
 
     glGenBuffers( 1, &position_buffer );
     glBindBuffer( GL_ARRAY_BUFFER, position_buffer );
-    glBufferData( GL_ARRAY_BUFFER, sizeof(vertex_positions), vertex_positions, GL_STATIC_DRAW );
+    glBufferData( GL_ARRAY_BUFFER,
+                  sizeof(vertex_positions),
+                  vertex_positions,
+                  GL_STATIC_DRAW );
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
+
+    InitializeProgram();
 
     return true;
 }
@@ -136,6 +219,8 @@ int main()
         for( const JoeLang::Pass& pass : t->GetPasses() )
         {
             pass.SetState();
+
+            glUseProgram( program );
 
             glBindBuffer( GL_ARRAY_BUFFER, position_buffer );
             glEnableVertexAttribArray( 0 );
