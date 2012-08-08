@@ -7,6 +7,8 @@
 #include <joelang/effect.hpp>
 
 bool running = true;
+GLFWwindow window;
+const JoeLang::Technique* t = nullptr;
 
 void OnKeyInput( GLFWwindow window, int k, int action )
 {
@@ -21,13 +23,13 @@ int OnWindowClosed(GLFWwindow window)
     return GL_TRUE;
 }
 
-int main()
+bool InitializeGL()
 {
     // Initialize glfw
     if( !glfwInit() )
     {
         std::cerr << "Failed to initialize GLFW\n";
-        return -1;
+        return false; 
     }
 
 #if defined(__APPLE__)
@@ -38,15 +40,15 @@ int main()
 #endif
 
     // Create a window
-    GLFWwindow window = glfwCreateWindow( 640, 480,
-                                          GLFW_WINDOWED,
-                                          "JoeRender",
-                                          NULL );
+    window = glfwCreateWindow( 640, 480,
+                               GLFW_WINDOWED,
+                               "JoeRender",
+                               NULL );
     if (!window)
     {
         std::cerr << "Failed to open GLFW window\n";
         glfwTerminate();
-        return -1;
+        return false;
     }
 
     std::cout << "GL_RENDERER = " <<
@@ -66,6 +68,11 @@ int main()
     glfwSetWindowCloseCallback( OnWindowClosed );
     glfwSetKeyCallback( OnKeyInput );
 
+    return true;
+}
+
+bool InitializeJoeLang()
+{
     //
     // Initialize JoeLang
     //
@@ -74,10 +81,20 @@ int main()
     context.RegisterOpenGLActions();
     JoeLang::Effect* clear_blue =
                           context.CreateEffectFromFile( "data/clear_blue.jfx" );
-    assert( clear_blue && "Couldn't get effect" );
+    if( !clear_blue )
+        return false;
 
-    const JoeLang::Technique* t = clear_blue->GetNamedTechnique( "clear_blue" );
-    assert( t );
+    t = clear_blue->GetNamedTechnique( "clear_blue" );
+    return t;
+}
+
+int main()
+{
+    if( !InitializeGL() )
+        return -1;
+
+    if( !InitializeJoeLang() )
+        return -1;
 
     // Main loop
     while( running )
