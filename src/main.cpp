@@ -1,6 +1,7 @@
 #include <cassert>
 #include <iostream>
 
+#include <GL/GLee.h>
 #include <GL/glfw3.h>
 
 #include <joelang/context.hpp>
@@ -10,6 +11,7 @@ bool running = true;
 GLFWwindow window;
 const JoeLang::Technique* t = nullptr;
 JoeLang::Context context;
+GLuint position_buffer;
 
 void OnKeyInput( GLFWwindow window, int k, int action )
 {
@@ -88,6 +90,23 @@ bool InitializeJoeLang()
     return t;
 }
 
+bool InitializeGLResources()
+{
+    const float vertex_positions[] = 
+    {
+        0.75f, 0.75f, 0.0f, 1.0f,
+        0.75f, -0.75f, 0.0f, 1.0f,
+        -0.75f, -0.75f, 0.0f, 1.0f,
+    };
+
+    glGenBuffers( 1, &position_buffer );
+    glBindBuffer( GL_ARRAY_BUFFER, position_buffer );
+    glBufferData( GL_ARRAY_BUFFER, sizeof(vertex_positions), vertex_positions, GL_STATIC_DRAW );
+    glBindBuffer( GL_ARRAY_BUFFER, 0 );
+
+    return true;
+}
+
 int main()
 {
     if( !InitializeGL() )
@@ -96,11 +115,24 @@ int main()
     if( !InitializeJoeLang() )
         return -1;
 
+    if( !InitializeGLResources() )
+        return -1;
+
     // Main loop
     while( running )
     {
         for( const JoeLang::Pass& pass : t->GetPasses() )
+        {
             pass.SetState();
+
+            glBindBuffer( GL_ARRAY_BUFFER, position_buffer );
+            glEnableVertexAttribArray( 0 );
+            glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 0, 0 );
+
+            glDrawArrays( GL_TRIANGLES, 0, 3 );
+
+            pass.ResetState();
+        }
 
         // Swap buffers
         glfwSwapBuffers(window);
