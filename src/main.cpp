@@ -220,8 +220,6 @@ int main()
         {
             pass.SetState();
 
-            glUseProgram( program );
-
             glBindBuffer( GL_ARRAY_BUFFER, position_buffer );
             glEnableVertexAttribArray( 0 );
             glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 0, 0 );
