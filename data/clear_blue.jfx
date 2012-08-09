@@ -7,7 +7,9 @@ float4 GetColor( const string color_string )
     return color_string == "blue" ? blue : red;
 }
 
-float4 VertexMain( float4 position )
+/*varying*/ float4 position;
+
+float4 VertexMain()
 {
     return position;
 }
@@ -22,6 +24,7 @@ technique clear_blue
     pass
     {
         pixel_shader = compile PixelMain();
+        vertex_shader = compile VertexMain();
         clear_color = GetColor( "blue" );
         clear = COLOR;
     }
