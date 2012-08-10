@@ -1,5 +1,6 @@
 #include <cassert>
 #include <chrono>
+#include <cstdio>
 #include <iostream>
 
 #include <GL/GLee.h>
