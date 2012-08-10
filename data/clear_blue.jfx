@@ -1,25 +1,30 @@
-float4 blue = float4(0.49, 0.65, 0.85, 0.0);
-float4 red  = float4(0.85, 0.29, 0.29, 0.0);
+float4 red   = float4(0.85, 0.29, 0.29, 1.0);
+float4 green = float4(0.44, 0.85, 0.29, 1.0);
+float4 blue  = float4(0.49, 0.65, 0.85, 1.0);
 
 float4 GetColor( const string color_string )
 {
     return color_string == "blue" ? blue : red;
 }
 
-float4 VertexMain( float4 position )
+/*varying*/ float4 position;
+
+float4 VertexMain()
 {
     return position;
 }
 
-float4 PixelMain( float4 position )
+float4 PixelMain()
 {
-    return position;
+    return green;
 }
 
 technique clear_blue
 {
     pass
     {
+        pixel_shader = compile PixelMain();
+        vertex_shader = compile VertexMain();
         clear_color = GetColor( "blue" );
         clear = COLOR;
     }
