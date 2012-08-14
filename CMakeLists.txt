@@ -51,6 +51,9 @@ add_subdirectory( joemath EXCLUDE_FROM_ALL )
 
 add_subdirectory( joelang EXCLUDE_FROM_ALL )
 
+set( UCPP_STAND_ALONE FALSE )
+add_subdirectory( ucpp EXCLUDE_FROM_ALL )
+
 set( joerender_LIBRARY_DIRS ${joelang_LIBRARY_DIRS} )
 link_directories( ${joerender_LIBRARY_DIRS} )
 
@@ -78,7 +81,7 @@ include_directories( ${joemath_INCLUDE_DIR} ${joelang_INCLUDE_DIR} ${glfw_INCLUD
 
 set( GL_LIBS glfw libgleeStatic ${GLFW_LIBRARIES} )
 
-target_link_libraries( joerender joelang ${GL_LIBS} )
+target_link_libraries( joerender joelang ucpp ${GL_LIBS} )
 
 #
 # Various custom commands
