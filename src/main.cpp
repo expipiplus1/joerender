@@ -152,7 +152,6 @@ bool InitializeGL()
                  reinterpret_cast<const char*>(glGetString(GL_VENDOR)) <<
                  std::endl;
 
-
     return true;
 }
 
