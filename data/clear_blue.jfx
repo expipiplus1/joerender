@@ -16,7 +16,7 @@ float4 VertexMain()
 
 float4 PixelMain()
 {
-    return green;
+    return float4(0.44f, 0.85f, 0.29f, 1.0f);
 }
 
 technique clear_blue
