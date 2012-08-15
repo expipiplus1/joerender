@@ -134,6 +134,14 @@ bool InitializeGL()
         return false;
     }
 
+    glfwSetInputMode( window, GLFW_KEY_REPEAT, GL_TRUE );
+    glfwMakeContextCurrent(window);
+    glfwSwapInterval( 1 );
+
+    // Set callback functions
+    glfwSetWindowCloseCallback( OnWindowClosed );
+    glfwSetKeyCallback( OnKeyInput );
+
     std::cout << "GL_RENDERER = " <<
                  reinterpret_cast<const char*>(glGetString(GL_RENDERER)) <<
                  std::endl;
@@ -144,12 +152,6 @@ bool InitializeGL()
                  reinterpret_cast<const char*>(glGetString(GL_VENDOR)) <<
                  std::endl;
 
-    glfwSetInputMode( window, GLFW_KEY_REPEAT, GL_TRUE );
-    glfwSwapInterval( 1 );
-
-    // Set callback functions
-    glfwSetWindowCloseCallback( OnWindowClosed );
-    glfwSetKeyCallback( OnKeyInput );
 
     return true;
 }
