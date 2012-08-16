@@ -7,14 +7,14 @@ float4 GetColor( const string color_string )
     return color_string == "blue" ? blue : red;
 }
 
-varying float4 position;
+in varying float4 position : POSITION;
 
-float4 VertexMain()
+float4 VertexMain() : POSITION
 {
     return position;
 }
 
-float4 PixelMain()
+float4 PixelMain() : COLOR[0]
 {
     return float4(0.44f, 0.85f, 0.29f, 1.0f);
 }
