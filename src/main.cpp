@@ -87,6 +87,8 @@ bool InitializeJoeLang()
     // Initialize JoeLang
     //
     context = new JoeLang::Context();
+    context->SetErrorCallback( [](std::string e)
+                               {std::cerr << e << std::endl;} );
     context->RegisterOpenGLStates();
     context->RegisterOpenGLActions();
     JoeLang::Effect* clear_blue =

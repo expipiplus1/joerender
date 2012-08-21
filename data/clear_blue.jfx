@@ -14,9 +14,14 @@ float4 VertexMain() : POSITION
     return position;
 }
 
-float4 PixelMain() : COLOR[0]
+float4 Green()
 {
     return float4(0.44f, 0.85f, 0.29f, 1.0f);
+}
+
+float4 PixelMain() : COLOR[0]
+{
+    return Green();
 }
 
 technique clear_blue
