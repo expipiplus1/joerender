@@ -11,6 +11,7 @@ in varying float4 position : POSITION;
 out varying float depth : DEPTH;
 
 in varying float4 color;
+in varying int in_a;
 
 float4 VertexMain() : POSITION
 {
@@ -39,7 +40,7 @@ technique clear_blue
 {
     pass
     {
-        pixel_shader = compile PixelMain( 3, color );
+        pixel_shader = compile PixelMain( 4+3%in_a, color );
         vertex_shader = compile VertexMain();
         clear_color = GetColor( "blue" );
         clear = COLOR;
