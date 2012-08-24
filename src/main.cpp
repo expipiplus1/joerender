@@ -5,7 +5,8 @@
 #include <iostream>
 #include <string>
 
-#include <GL/GLee.h>
+//#include <GL/GLee.h>
+#define GLFW_INCLUDE_GL3
 #include <GL/glfw3.h>
 
 #include <joelang/context.hpp>
@@ -17,7 +18,8 @@ GLFWwindow window;
 const JoeLang::Technique* t = nullptr;
 JoeLang::Context* context = nullptr;
 
-GLuint position_buffer;
+GLuint vertex_array_object = 0;
+GLuint position_buffer = 0;
 
 void OnKeyInput( GLFWwindow window, int k, int action )
 {
@@ -114,13 +116,22 @@ bool InitializeGLResources()
         -0.75f, -0.75f, 0.0f, 1.0f,
     };
 
+    glGenVertexArrays( 1, &vertex_array_object );
+    glBindVertexArray( vertex_array_object );
+
     glGenBuffers( 1, &position_buffer );
     glBindBuffer( GL_ARRAY_BUFFER, position_buffer );
+
     glBufferData( GL_ARRAY_BUFFER,
                   sizeof(vertex_positions),
                   vertex_positions,
                   GL_STATIC_DRAW );
+    glEnableVertexAttribArray( 0 );
+    glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 0, 0 );
+
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
+
+    glBindVertexArray( 0 );
 
     return true;
 }
@@ -148,11 +159,9 @@ int main()
         {
             pass.SetState();
 
-            glBindBuffer( GL_ARRAY_BUFFER, position_buffer );
-            glEnableVertexAttribArray( 0 );
-            glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 0, 0 );
-
+            glBindVertexArray( vertex_array_object );
             glDrawArrays( GL_TRIANGLES, 0, 3 );
+            glBindVertexArray( 0 );
 
             pass.ResetState();
         }

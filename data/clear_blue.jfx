@@ -10,8 +10,8 @@ float4 GetColor( const string color_string )
 in varying float4 position : POSITION;
 out varying float depth : DEPTH;
 
-in varying float4 color;
-in varying int in_a;
+//in varying float4 color;
+//in varying float in_a;
 
 const uniform bool b = true;
 
@@ -35,15 +35,15 @@ float4 Green()
 float4 PixelMain( int a, float4 my_color ) : COLOR
 {
     depth = b ? 0 : 1;
-    return MysteryColor() + my_color + color;
+    return MysteryColor() + my_color;// + color;
 }
 
 technique clear_blue
 {
     pass
     {
-        pixel_shader = compile PixelMain( 4+3%in_a, 
-                                          color + float4(0.1f,0.1f,0.1f,0.1f) );
+        pixel_shader = compile PixelMain( 4+3%int(99.0),
+                                          /*color*/ + float4(0.1f,0.1f,0.1f,0.1f) );
         vertex_shader = compile VertexMain();
         clear_color = GetColor( "blue" );
         clear = COLOR;
