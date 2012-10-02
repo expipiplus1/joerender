@@ -10,6 +10,3 @@
 [submodule "glee"]
 	path = glee
 	url = ssh://jophish@glee.git.sourceforge.net/gitroot/glee/glee
-[submodule "ucpp"]
-	path = ucpp
-	url = git@github.com:expipiplus1/ucpp.git
