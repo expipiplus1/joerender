@@ -8,6 +8,7 @@ float4 GetColor( const string color_string )
 }
 
 in varying float4 position : POSITION;
+in varying float4 wpos : WPOS;
 out varying float depth : DEPTH;
 
 //in varying float4 color;
@@ -24,6 +25,7 @@ float4 Green();
 
 float4 MysteryColor()
 {
+    return wpos / float4( 640, 480, 1 , 1);
     return Green();
 }
 
