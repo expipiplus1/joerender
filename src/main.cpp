@@ -5,8 +5,8 @@
 #include <iostream>
 #include <string>
 
-//#include <GL/GLee.h>
-#define GLFW_INCLUDE_GL3
+#include <GL/GLee.h>
+//#define GLFW_INCLUDE_GL3
 #include <GL/glfw3.h>
 
 #include <joelang/context.hpp>
@@ -183,4 +183,3 @@ int main()
     // Terminate GLFW
     glfwTerminate();
 }
-
