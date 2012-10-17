@@ -12,6 +12,7 @@ out varying float depth : DEPTH;
 
 //in varying float4 color;
 //in varying float in_a;
+in varying float4 wpos : WPOS;
 
 const uniform bool b = true;
 
@@ -24,7 +25,7 @@ float4 Green();
 
 float4 MysteryColor()
 {
-    return Green();
+    return wpos / float4(640,480,1,1);
 }
 
 float4 Green()
