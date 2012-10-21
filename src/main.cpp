@@ -5,12 +5,14 @@
 #include <iostream>
 #include <string>
 
-//#include <GL/GLee.h>
-#define GLFW_INCLUDE_GL3
+#include <GL/GLee.h>
+//#define GLFW_INCLUDE_GL3
 #include <GL/glfw3.h>
 
 #include <joelang/context.hpp>
 #include <joelang/effect.hpp>
+
+#include <joemath/joemath.hpp>
 
 bool running = true;
 GLFWwindow window;
@@ -93,6 +95,26 @@ bool InitializeJoeLang()
                                {std::cerr << e << std::endl;} );
     context->RegisterOpenGLStates();
     context->RegisterOpenGLActions();
+    
+    //
+    // Add a dummy state
+    //
+    static
+    JoeLang::State<JoeMath::float3> dummy3( "dummy3" );
+    dummy3.SetCallbacks( [](JoeMath::float3 v)->void
+                        {std::cout << v.x() << v.y() << v.z() << std::endl;},
+                        []()->void
+                        {std::cout << "dummy3 reset" << std::endl;} );
+    context->AddState(&dummy3);
+    
+    static
+    JoeLang::State<JoeMath::float2> dummy( "dummy" );
+    dummy.SetCallbacks( [](JoeMath::float2 v)->void
+                        {std::cout << v.x() << v.y() << std::endl;},
+                        []()->void
+                        {std::cout << "dummy reset" << std::endl;} );
+    context->AddState(&dummy);
+    
     JoeLang::Effect* clear_blue =
                          context->CreateEffectFromFile( "data/clear_blue.jfx" );
     if( !clear_blue )
@@ -183,4 +205,3 @@ int main()
     // Terminate GLFW
     glfwTerminate();
 }
-
