@@ -15,7 +15,7 @@
 #include <joemath/joemath.hpp>
 
 bool running = true;
-GLFWwindow window;
+GLFWwindow* window;
 
 const JoeLang::Technique* t = nullptr;
 JoeLang::Context* context = nullptr;
@@ -23,14 +23,14 @@ JoeLang::Context* context = nullptr;
 GLuint vertex_array_object = 0;
 GLuint position_buffer = 0;
 
-void OnKeyInput( GLFWwindow window, int k, int action )
+void OnKeyInput( GLFWwindow* window, int k, int action )
 {
   if( k == GLFW_KEY_ESCAPE &&
       action == GLFW_PRESS )
       running = false;
 }
 
-int OnWindowClosed(GLFWwindow window)
+int OnWindowClosed(GLFWwindow* window)
 {
     running = false;
     return GL_TRUE;
@@ -46,16 +46,16 @@ bool InitializeGL()
     }
 
 #if defined(__APPLE__)
-    glfwWindowHint( GLFW_OPENGL_VERSION_MAJOR, 3 );
-    glfwWindowHint( GLFW_OPENGL_VERSION_MINOR, 2 );
+    glfwWindowHint( GLFW_CONTEXT_VERSION_MAJOR, 3 );
+    glfwWindowHint( GLFW_CONTEXT_VERSION_MINOR, 2 );
     glfwWindowHint( GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE );
     glfwWindowHint( GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE );
 #endif
 
     // Create a window
     window = glfwCreateWindow( 640, 480,
-                               GLFW_WINDOWED,
                                "JoeRender",
+                               NULL,
                                NULL );
     if (!window)
     {
@@ -64,13 +64,13 @@ bool InitializeGL()
         return false;
     }
 
-    glfwSetInputMode( window, GLFW_KEY_REPEAT, GL_TRUE );
+    glfwSetInputMode( window, GLFW_STICKY_KEYS, GL_FALSE );
     glfwMakeContextCurrent(window);
     glfwSwapInterval( 1 );
 
     // Set callback functions
-    glfwSetWindowCloseCallback( OnWindowClosed );
-    glfwSetKeyCallback( OnKeyInput );
+    glfwSetWindowCloseCallback( window, OnWindowClosed );
+    glfwSetKeyCallback( window, OnKeyInput );
 
     std::cout << "GL_RENDERER = " <<
                  reinterpret_cast<const char*>(glGetString(GL_RENDERER)) <<
