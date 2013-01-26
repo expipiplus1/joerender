@@ -72,7 +72,12 @@ set( joerender_sources    src/main.cpp )
 
 set( joerender_data_dir   data )
 
-add_executable( joerender ${joerender_sources} )
+if( APPLE )
+    add_executable( joerender MACOSX_BUNDLE ${joerender_sources} )
+    set_target_properties( joerender PROPERTIES MACOSX_BUNDLE_NAME "JoeRender" )
+else()
+    add_executable( joerender ${joerender_sources} )
+endif()
 
 include_directories( ${joemath_INCLUDE_DIR} ${joelang_INCLUDE_DIR} ${glfw_INCLUDE_DIR} ${glee_INCLUDE_DIR} )
 
