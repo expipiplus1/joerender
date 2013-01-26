@@ -30,7 +30,7 @@ float4 MysteryColor()
 
 float4 Green()
 {
-    return float4(0.44f, 0.85f, 0.29f, 1.0f);
+    return float4(0.1,0.8,0.2,1.0);
 }
 
 float4 PixelMain( int a, float4 my_color ) : COLOR
@@ -44,7 +44,7 @@ technique clear_blue
     pass
     {
         pixel_shader = compile PixelMain( 4+3%int(99.0),
-                                          /*color*/ + float4(0.1f,0.1f,0.1f,0.1f) );
+                                          float4(0.1,0.1,0.1,0.1) );
         vertex_shader = compile VertexMain();
         clear_color = GetColor( "blue" );
         clear = COLOR;
