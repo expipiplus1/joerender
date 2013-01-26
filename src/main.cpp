@@ -6,7 +6,7 @@
 #include <string>
 
 #include <GL/GLee.h>
-//#define GLFW_INCLUDE_GL3
+#define GLFW_INCLUDE_GLCOREARB
 #include <GL/glfw3.h>
 
 #include <joelang/context.hpp>
@@ -33,7 +33,7 @@ void OnKeyInput( GLFWwindow* window, int k, int action )
 int OnWindowClosed(GLFWwindow* window)
 {
     running = false;
-    return GL_TRUE;
+    return GL_FALSE;
 }
 
 bool InitializeGL()
@@ -55,8 +55,8 @@ bool InitializeGL()
     // Create a window
     window = glfwCreateWindow( 640, 480,
                                "JoeRender",
-                               NULL,
-                               NULL );
+                               nullptr,
+                               nullptr );
     if (!window)
     {
         std::cerr << "Failed to open GLFW window\n";
@@ -64,13 +64,15 @@ bool InitializeGL()
         return false;
     }
 
-    glfwSetInputMode( window, GLFW_STICKY_KEYS, GL_FALSE );
+    //glfwSetInputMode( window, GLFW_STICKY_KEYS, GL_FALSE );
     glfwMakeContextCurrent(window);
-    glfwSwapInterval( 1 );
+    //glfwSwapInterval( 1 );
 
     // Set callback functions
     glfwSetWindowCloseCallback( window, OnWindowClosed );
     glfwSetKeyCallback( window, OnKeyInput );
+
+    glViewport(0, 0, 640, 480);
 
     std::cout << "GL_RENDERER = " <<
                  reinterpret_cast<const char*>(glGetString(GL_RENDERER)) <<
