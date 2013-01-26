@@ -46,10 +46,11 @@ technique clear_blue
         pixel_shader = compile PixelMain( 4+3%int(99.0),
                                           float4(0.1,0.1,0.1,0.1) );
         vertex_shader = compile VertexMain();
+
         clear_color = GetColor( "blue" );
         clear = COLOR;
-        dummy = float2(1,2);
-        dummy = float2(3,4);
-        dummy3 = float3(1,1,1);
+        //dummy = float2(1,2);
+        //dummy = float2(3,4);
+        //dummy3 = float3(1,1,1);
     }
 }
