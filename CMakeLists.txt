@@ -34,6 +34,7 @@ find_package( OpenGL REQUIRED )
 set( joemath_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/joemath/include" )
 
 set( joelang_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/joelang/include" )
+set( JOELANG_WITH_OPENGL ON )
 
 set( glfw_INCLUDE_DIR    "${CMAKE_SOURCE_DIR}/glfw/include" )
 
