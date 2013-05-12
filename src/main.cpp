@@ -163,13 +163,13 @@ bool InitializeGLResources()
 int main()
 {
     if( !InitializeGL() )
-        return -1;
+        return 1;
 
     if( !InitializeJoeLang() )
-        return -1;
+        return 2;
 
     if( !InitializeGLResources() )
-        return -1;
+        return 3;
 
     std::chrono::high_resolution_clock clock;
 
