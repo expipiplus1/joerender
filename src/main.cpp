@@ -22,6 +22,7 @@ JoeLang::Context* context = nullptr;
 
 GLuint vertex_array_object = 0;
 GLuint position_buffer = 0;
+GLuint index_buffer = 0;
 
 void OnKeyInput( GLFWwindow* window, int k, int action )
 {
@@ -133,6 +134,13 @@ void ReleaseJoeLang()
 
 bool InitializeGLResources()
 {
+    const unsigned vertex_indices[] =
+    {
+        0,
+        1,
+        2,
+    };
+
     const float vertex_positions[] =
     {
         0.75f, 0.75f, 0.0f, 1.0f,
@@ -152,8 +160,19 @@ bool InitializeGLResources()
                   GL_STATIC_DRAW );
     glEnableVertexAttribArray( 0 );
     glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 0, 0 );
-
     glBindBuffer( GL_ARRAY_BUFFER, 0 );
+
+
+    glGenBuffers( 1, &index_buffer );
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, index_buffer );
+    glBufferData( GL_ELEMENT_ARRAY_BUFFER,
+                  sizeof(vertex_indices),
+                  vertex_indices,
+                  GL_STATIC_DRAW );
+    //
+    // We don't need to unbind GL_ELEMTNE_ARRAY_BUFFER because the state is
+    // contained in the vao now.
+    //
 
     glBindVertexArray( 0 );
 
@@ -184,7 +203,7 @@ int main()
             pass.SetState();
 
             glBindVertexArray( vertex_array_object );
-            glDrawArrays( GL_TRIANGLES, 0, 3 );
+            glDrawElements( GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0 );
             glBindVertexArray( 0 );
 
             pass.ResetState();
