@@ -14,14 +14,14 @@ out varying float depth : DEPTH;
 //in varying float in_a;
 in varying float4 wpos : WPOS;
 
-const uniform bool b = true;
+//const uniform int i;
+uniform bool b;
+//uniform float4 c;
 
-float4 VertexMain() : POSITION
+float4 VertexMain( uniform float4 offset ) : POSITION
 {
-    return position;
+    return position + offset;
 }
-
-float4 Green();
 
 float4 MysteryColor()
 {
@@ -35,21 +35,25 @@ float4 Green()
 
 float4 PixelMain( int a, float4 my_color ) : COLOR
 {
-    depth = b ? 0 : 1;
-    return MysteryColor() + my_color;// + color;
+    return b ? float4(0,0,0,0) : float4(1,1,1,1);
+    //return b ? MysteryColor() : my_color;// + color;
 }
+
+//uniform int j;
+
+const float4 default_offset = float4(0,0,0,0);
 
 technique clear_blue
 {
     pass
     {
         pixel_shader = compile PixelMain( 4+3%int(99.0),
-                                          float4(0.1,0.1,0.1,0.1) );
-        vertex_shader = compile VertexMain();
+                                          float4(0.8,0.1,0.1,1) );
+        vertex_shader = compile VertexMain( float4(0,0,0,0) + default_offset );
 
         clear_color = GetColor( "blue" );
         clear = COLOR;
-        //dummy = float2(1,2);
+        dummy = b ? float2(1,2) : float2(3,4);
         //dummy = float2(3,4);
         //dummy3 = float3(1,1,1);
     }

@@ -11,14 +11,16 @@
 
 #include <joelang/context.hpp>
 #include <joelang/effect.hpp>
+#include <joelang/parameter.hpp>
 
 #include <joemath/joemath.hpp>
 
 bool running = true;
 GLFWwindow* window;
 
-const JoeLang::Technique* t = nullptr;
-JoeLang::Context* context = nullptr;
+JoeLang::Context*         context = nullptr;
+JoeLang::Effect*          effect = nullptr;
+const JoeLang::Technique* technique = nullptr;
 
 GLuint vertex_array_object = 0;
 GLuint position_buffer = 0;
@@ -118,13 +120,12 @@ bool InitializeJoeLang()
                         {std::cout << "dummy reset" << std::endl;} );
     context->AddState(&dummy);
     
-    JoeLang::Effect* clear_blue =
-                         context->CreateEffectFromFile( "data/clear_blue.jfx" );
-    if( !clear_blue )
+    effect = context->CreateEffectFromFile( "data/clear_blue.jfx" );
+    if( !effect )
         return false;
 
-    t = clear_blue->GetNamedTechnique( "clear_blue" );
-    return t;
+    technique = effect->GetNamedTechnique( "clear_blue" );
+    return technique;
 }
 
 void ReleaseJoeLang()
@@ -195,10 +196,15 @@ int main()
     auto old_time = clock.now();
     char title[64];
 
+    JoeLang::ParameterBase* p = effect->GetNamedParameter( "b" );
+    JoeLang::Parameter<bool>* b = dynamic_cast<JoeLang::Parameter<bool>*>(p);
+    assert( b );
+    b->SetParameter( false );
+
     // Main loop
     while( running )
     {
-        for( const JoeLang::Pass& pass : t->GetPasses() )
+        for( const JoeLang::Pass& pass : technique->GetPasses() )
         {
             pass.SetState();
 
@@ -208,6 +214,8 @@ int main()
 
             pass.ResetState();
         }
+
+        b->SetParameter( !b->GetParameter() );
 
         auto new_time = clock.now();
         std::chrono::duration<float, std::milli> delta_time =
