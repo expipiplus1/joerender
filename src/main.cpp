@@ -201,9 +201,16 @@ int main()
     assert( b );
     b->SetParameter( false );
 
+    p = effect->GetNamedParameter( "red" );
+    JoeLang::Parameter<JoeMath::float4>* red =
+                    dynamic_cast<JoeLang::Parameter<JoeMath::float4>*>(p);
+    assert( red );
+
+
     // Main loop
     while( running )
     {
+        red->SetParameter( JoeMath::float4(1,1,1,1) );
         for( const JoeLang::Pass& pass : technique->GetPasses() )
         {
             pass.SetState();

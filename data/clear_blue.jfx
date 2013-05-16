@@ -35,7 +35,7 @@ float4 Green()
 
 float4 PixelMain( int a, float4 my_color ) : COLOR
 {
-    return b ? float4(0,0,0,0) : float4(1,1,1,1);
+    return b ? green : red;
     //return b ? MysteryColor() : my_color;// + color;
 }
 
