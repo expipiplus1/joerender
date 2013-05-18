@@ -113,9 +113,9 @@ bool InitializeJoeLang()
     context->AddState(&dummy3);
     
     static
-    JoeLang::State<JoeMath::float2> dummy( "dummy" );
-    dummy.SetCallbacks( [](JoeMath::float2 v)->void
-                        {std::cout << v.x() << v.y() << std::endl;},
+    JoeLang::State<double> dummy( "dummy" );
+    dummy.SetCallbacks( [](double v)->void
+                        {std::cout << v << std::endl;},
                         []()->void
                         {std::cout << "dummy reset" << std::endl;} );
     context->AddState(&dummy);
@@ -196,21 +196,19 @@ int main()
     auto old_time = clock.now();
     char title[64];
 
-    JoeLang::ParameterBase* p = effect->GetNamedParameter( "b" );
-    JoeLang::Parameter<bool>* b = dynamic_cast<JoeLang::Parameter<bool>*>(p);
+    JoeLang::Parameter<bool>* b = effect->GetNamedParameter<bool>( "b" );
     assert( b );
     b->SetParameter( false );
 
-    p = effect->GetNamedParameter( "red" );
     JoeLang::Parameter<JoeMath::float4>* red =
-                    dynamic_cast<JoeLang::Parameter<JoeMath::float4>*>(p);
+                            effect->GetNamedParameter<JoeMath::float4>( "red" );
     assert( red );
 
+    red->SetParameter( JoeMath::float4(0.85, 0.29, 0.29, 1.0) );
 
     // Main loop
     while( running )
     {
-        red->SetParameter( JoeMath::float4(1,1,1,1) );
         for( const JoeLang::Pass& pass : technique->GetPasses() )
         {
             pass.SetState();
