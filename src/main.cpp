@@ -191,11 +191,6 @@ int main()
     if( !InitializeGLResources() )
         return 3;
 
-    std::chrono::high_resolution_clock clock;
-
-    auto old_time = clock.now();
-    char title[64];
-
     JoeLang::Parameter<bool>* b = effect->GetNamedParameter<bool>( "b" );
     assert( b );
     b->SetParameter( false );
@@ -205,6 +200,13 @@ int main()
     assert( red );
 
     red->SetParameter( JoeMath::float4(0.85, 0.29, 0.29, 1.0) );
+
+    std::chrono::high_resolution_clock clock;
+    unsigned long long num_frames = 0;
+    auto start_time = clock.now();
+
+    auto old_time = clock.now();
+    char title[64];
 
     // Main loop
     while( running )
@@ -232,7 +234,14 @@ int main()
         // Swap buffers
         glfwSwapBuffers(window);
         glfwPollEvents();
+        ++num_frames;
     }
+
+    auto new_time = clock.now();
+    std::chrono::duration<float> delta_time = new_time - start_time;
+
+    std::cout << num_frames << " frames in " <<     delta_time.count() << "s (" <<
+                 1000 * delta_time.count() / num_frames << "ms)\n";
 
     ReleaseJoeLang();
 
