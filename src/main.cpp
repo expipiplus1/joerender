@@ -28,8 +28,9 @@ GLuint index_buffer = 0;
 
 void OnKeyInput( GLFWwindow* window, int k, int action )
 {
-  if( k == GLFW_KEY_ESCAPE &&
-      action == GLFW_PRESS )
+  if( action == GLFW_PRESS &&
+      ( k == GLFW_KEY_ESCAPE ||
+        k == 'Q' ) )
       running = false;
 }
 
