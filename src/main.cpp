@@ -164,7 +164,7 @@ bool InitializeGLResources()
                   vertex_indices,
                   GL_STATIC_DRAW );
     //
-    // We don't need to unbind GL_ELEMTNE_ARRAY_BUFFER because the state is
+    // We don't need to unbind GL_ELEMENT_ARRAY_BUFFER because the state is
     // contained in the vao now.
     //
 
