@@ -1,60 +1,70 @@
-float4 red   = float4(0.85, 0.29, 0.29, 1.0);
-float4 green = float4(0.44, 0.85, 0.29, 1.0);
-float4 blue  = float4(0.49, 0.65, 0.85, 1.0);
+float3 red; // this is given as a uniform
+float3 green = float3(0.44, 0.85, 0.29);
+float3 blue  = float3(0.49, 0.65, 0.85);
+float3 black = float3(0,0,0);
 
-float4 GetColor( const string color_string )
+//
+// Get a color based on a string
+//
+float3 GetColor( const string color_string )
 {
-    return color_string == "blue" ? blue : red;
+    return color_string == "blue"  ? blue  :
+           color_string == "red"   ? red   :
+           color_string == "green" ? green :
+           black;
 }
 
 in varying float4 position : POSITION;
-out varying float depth : DEPTH;
 
-//in varying float4 color;
-//in varying float in_a;
 in varying float4 wpos : WPOS;
 
-//const uniform int i;
-uniform bool b;
-//uniform float4 c;
+//uniform bool b;
 
-float4 VertexMain( uniform float4 offset ) : POSITION
+float4 VertexMain( float4 mul ) : POSITION
 {
-    return position + offset;
+    return position * mul;
 }
 
-float4 MysteryColor()
+float2 WindowPosition()
 {
-    return wpos / float4(640,480,1,1);
+    return wpos.xy / float2(640,480);
 }
 
-float4 Green()
+float4 PixelMain( bool b ) : COLOR
 {
-    return float4(0.1,0.8,0.2,1.0);
+    //return float4( red, 1 );
+    return float4( (b ? green : red), 1 );
 }
-
-float4 PixelMain( int a, float4 my_color ) : COLOR
-{
-    return b ? green : red;
-    //return b ? MysteryColor() : my_color;// + color;
-}
-
-//uniform int j;
 
 const float4 default_offset = float4(0,0,0,0);
 
 technique clear_blue
 {
-    pass
+    pass clear
     {
-        pixel_shader = compile PixelMain( 4+3%int(99.0),
-                                          float4(0.8,0.1,0.1,1) );
-        vertex_shader = compile VertexMain( float4(0,0,0,0) + default_offset );
-
-        clear_color = GetColor( "blue" );
+        clear_color = float4(blue,0);
         clear = COLOR;
-        dummy = b ? float2(1,2) : float2(3,4);
-        //dummy = float2(3,4);
-        //dummy3 = float3(1,1,1);
+    }
+    pass first_triangle
+    {
+        pixel_shader = compile PixelMain( true );
+        vertex_shader = compile VertexMain( float4(1,1,1,1) );
+
+        render_scene = true;
+    }
+    pass second_triangle
+    {
+        //
+        // Blend this additively
+        //
+        blend_enable = true;
+        blend_equation = ADD;
+        blend_func = uint2(SRC_ALPHA, DST_ALPHA);
+
+        pixel_shader = compile PixelMain( false );
+        // flip this triangle in x
+        vertex_shader = compile VertexMain( float4(-1,1,1,1) );
+
+        render_scene = true;
     }
 }

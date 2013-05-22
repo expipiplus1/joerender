@@ -26,6 +26,8 @@ GLuint vertex_array_object = 0;
 GLuint position_buffer = 0;
 GLuint index_buffer = 0;
 
+bool render_scene = false;
+
 void OnKeyInput( GLFWwindow* window, int k, int action )
 {
   if( action == GLFW_PRESS &&
@@ -101,26 +103,16 @@ bool InitializeJoeLang()
                                {std::cerr << e << std::endl;} );
     context->RegisterOpenGLStates();
     context->RegisterOpenGLActions();
-    
+
     //
-    // Add a dummy state
+    // The state used to render our scene
     //
     static
-    JoeLang::State<JoeMath::float3> dummy3( "dummy3" );
-    dummy3.SetCallbacks( [](JoeMath::float3 v)->void
-                        {std::cout << v.x() << v.y() << v.z() << std::endl;},
-                        []()->void
-                        {std::cout << "dummy3 reset" << std::endl;} );
-    context->AddState(&dummy3);
-    
-    static
-    JoeLang::State<double> dummy( "dummy" );
-    dummy.SetCallbacks( [](double v)->void
-                        {std::cout << v << std::endl;},
-                        []()->void
-                        {std::cout << "dummy reset" << std::endl;} );
-    context->AddState(&dummy);
-    
+    JoeLang::State<bool> render( "render_scene" );
+    render.SetCallbacks( [](bool b) { render_scene = b; },
+                         []()       { render_scene = false; } );
+    context->AddState( &render );
+
     effect = context->CreateEffectFromFile( "data/clear_blue.jfx" );
     if( !effect )
         return false;
@@ -192,15 +184,11 @@ int main()
     if( !InitializeGLResources() )
         return 3;
 
-    JoeLang::Parameter<bool>* b = effect->GetNamedParameter<bool>( "b" );
-    assert( b );
-    b->SetParameter( false );
-
-    JoeLang::Parameter<JoeMath::float4>* red =
-                            effect->GetNamedParameter<JoeMath::float4>( "red" );
+    JoeLang::Parameter<JoeMath::float3>* red =
+                            effect->GetNamedParameter<JoeMath::float3>( "red" );
     assert( red );
 
-    red->SetParameter( JoeMath::float4(0.85, 0.29, 0.29, 1.0) );
+    red->SetParameter( JoeMath::float3(0.85, 0.29, 0.29) );
 
     std::chrono::high_resolution_clock clock;
     unsigned long long num_frames = 0;
@@ -216,14 +204,15 @@ int main()
         {
             pass.SetState();
 
-            glBindVertexArray( vertex_array_object );
-            glDrawElements( GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0 );
-            glBindVertexArray( 0 );
+            if( render_scene )
+            {
+                glBindVertexArray( vertex_array_object );
+                glDrawElements( GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0 );
+                glBindVertexArray( 0 );
+            }
 
             pass.ResetState();
         }
-
-        b->SetParameter( !b->GetParameter() );
 
         auto new_time = clock.now();
         std::chrono::duration<float, std::milli> delta_time =
@@ -241,8 +230,8 @@ int main()
     auto new_time = clock.now();
     std::chrono::duration<float> delta_time = new_time - start_time;
 
-    std::cout << num_frames << " frames in " <<     delta_time.count() << "s (" <<
-                 1000 * delta_time.count() / num_frames << "ms)\n";
+    std::cout << num_frames << " frames in " <<     delta_time.count() << "s ("
+              << 1000 * delta_time.count() / num_frames << "ms)\n";
 
     ReleaseJoeLang();
 
