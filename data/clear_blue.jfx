@@ -18,8 +18,6 @@ in varying float4 position : POSITION;
 
 in varying float4 wpos : WPOS;
 
-//uniform bool b;
-
 float4 VertexMain( float4 mul ) : POSITION
 {
     return position * mul;
@@ -30,10 +28,14 @@ float2 WindowPosition()
     return wpos.xy / float2(640,480);
 }
 
+float3 white = 1;
+
+float3 pink = (green + white)/2..xxx;
+float3 purple;
+
 float4 PixelMain( bool b ) : COLOR
 {
-    //return float4( red, 1 );
-    return float4( (b ? green : red), 1 );
+    return float4( b ? red : blue, 0.5 );
 }
 
 const float4 default_offset = float4(0,0,0,0);
@@ -42,7 +44,7 @@ technique clear_blue
 {
     pass clear
     {
-        clear_color = float4(blue,0);
+        clear_color = float4( pink, 0 );
         clear = COLOR;
     }
     pass first_triangle
@@ -51,6 +53,8 @@ technique clear_blue
         vertex_shader = compile VertexMain( float4(1,1,1,1) );
 
         render_scene = true;
+
+        float_state = dot( normalize(red), normalize(green) );
     }
     pass second_triangle
     {
@@ -59,7 +63,7 @@ technique clear_blue
         //
         blend_enable = true;
         blend_equation = ADD;
-        blend_func = uint2(SRC_ALPHA, DST_ALPHA);
+        blend_func = uint2(SRC_ALPHA, ONE_MINUS_SRC_ALPHA);
 
         pixel_shader = compile PixelMain( false );
         // flip this triangle in x
