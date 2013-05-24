@@ -113,6 +113,15 @@ bool InitializeJoeLang()
                          []()       { render_scene = false; } );
     context->AddState( &render );
 
+    static
+    JoeLang::State<float> float_state( "float_state" );
+    float_state.SetCallbacks( [](float f)
+                              {std::cout << "float_state: " << f << std::endl;},
+                              []()
+                              {std::cout << "float_state reset" << std::endl;});
+    context->AddState( &float_state );
+
+
     effect = context->CreateEffectFromFile( "data/clear_blue.jfx" );
     if( !effect )
         return false;
