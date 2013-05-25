@@ -121,6 +121,27 @@ bool InitializeJoeLang()
                               {std::cout << "float_state reset" << std::endl;});
     context->AddState( &float_state );
 
+    static
+    JoeLang::State<JoeMath::float4x4> matrix_state( "matrix_state" );
+    matrix_state.SetCallbacks( [](JoeMath::float4x4 m)
+                              {std::cout << "matrix_state: "
+                                         << std::endl
+                                         << m[0][0] << " " << m[1][0] << " "
+                                         << m[2][0] << " " << m[3][0] << " "
+                                         << std::endl
+                                         << m[0][1] << " " << m[1][1] << " "
+                                         << m[2][1] << " " << m[3][1] << " "
+                                         << std::endl
+                                         << m[0][2] << " " << m[1][2] << " "
+                                         << m[2][2] << " " << m[3][2] << " "
+                                         << std::endl
+                                         << m[0][3] << " " << m[1][3] << " "
+                                         << m[2][3] << " " << m[3][3] << " "
+                                         << std::endl;},
+                              []()
+                              {std::cout << "matrix_state reset" << std::endl;});
+    context->AddState( &matrix_state );
+
 
     effect = context->CreateEffectFromFile( "data/clear_blue.jfx" );
     if( !effect )
@@ -199,6 +220,12 @@ int main()
 
     red->SetParameter( JoeMath::float3(0.85, 0.29, 0.29) );
 
+    JoeLang::Parameter<JoeMath::float3x3>* rotate =
+                     effect->GetNamedParameter<JoeMath::float3x3>( "rotate" );
+    assert( rotate );
+
+    rotate->SetParameter( JoeMath::Identity<float, 3>() );
+
     std::chrono::high_resolution_clock clock;
     unsigned long long num_frames = 0;
     auto start_time = clock.now();
@@ -209,6 +236,9 @@ int main()
     // Main loop
     while( running )
     {
+        std::chrono::duration<float> seconds = clock.now().time_since_epoch();
+        rotate->SetParameter( JoeMath::Rotate2D( seconds.count() ) );
+
         for( const JoeLang::Pass& pass : technique->GetPasses() )
         {
             pass.SetState();

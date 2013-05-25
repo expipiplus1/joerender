@@ -18,9 +18,11 @@ in varying float4 position : POSITION;
 
 in varying float4 wpos : WPOS;
 
+uniform float3x3 rotate;
+
 float4 VertexMain( float4 mul ) : POSITION
 {
-    return position * mul;
+    return float4( mul( rotate, position.xyz ), 1) * mul;
 }
 
 float2 WindowPosition()
@@ -32,6 +34,9 @@ float3 white = 1;
 
 float3 pink = (green + white)/2..xxx;
 float3 purple;
+
+float4 zero = float4(0);
+float4 one  = float4(1..xx, 1, 1.);
 
 float4 PixelMain( bool b ) : COLOR
 {
@@ -53,8 +58,6 @@ technique clear_blue
         vertex_shader = compile VertexMain( float4(1,1,1,1) );
 
         render_scene = true;
-
-        float_state = dot( normalize(red), normalize(green) );
     }
     pass second_triangle
     {
@@ -70,5 +73,9 @@ technique clear_blue
         vertex_shader = compile VertexMain( float4(-1,1,1,1) );
 
         render_scene = true;
+    }
+    pass matrix_state
+    {
+        //matrix_state = float4x4( zero, one, zero, one );
     }
 }
