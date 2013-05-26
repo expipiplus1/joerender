@@ -22,11 +22,13 @@ JoeLang::Context*         context = nullptr;
 JoeLang::Effect*          effect = nullptr;
 const JoeLang::Technique* technique = nullptr;
 
-GLuint vertex_array_object = 0;
-GLuint position_buffer = 0;
+GLuint triangle_vertex_array_object = 0;
+GLuint triangle_position_buffer = 0;
+GLuint fullscreen_vertex_array_object = 0;
 GLuint index_buffer = 0;
 
-bool render_scene = false;
+bool render_triangle   = false;
+bool render_fullscreen = false;
 
 void OnKeyInput( GLFWwindow* window, int k, int action )
 {
@@ -108,11 +110,17 @@ bool InitializeJoeLang()
     // The state used to render our scene
     //
     static
-    JoeLang::State<bool> render( "render_scene" );
-    render.SetCallbacks( [](bool b) { render_scene = b; },
-                         []()       { render_scene = false; } );
-    context->AddState( &render );
-
+    JoeLang::State<bool> render_triangle_state( "render_triangle" );
+    render_triangle_state.SetCallbacks( [](bool b) { render_triangle = b; },
+                                        []()       { render_triangle = false; } );
+    context->AddState( &render_triangle_state );
+    
+    static
+    JoeLang::State<bool> render_fullscreen_state( "render_fullscreen" );
+    render_fullscreen_state.SetCallbacks( [](bool b) { render_fullscreen = b; },
+                                          []()       { render_fullscreen = false; } );
+    context->AddState( &render_fullscreen_state );
+   
     static
     JoeLang::State<float> float_state( "float_state" );
     float_state.SetCallbacks( [](float f)
@@ -164,42 +172,61 @@ bool InitializeGLResources()
         1,
         2,
     };
-
-    const float vertex_positions[] =
-    {
-        0.75f, 0.75f, 0.0f, 1.0f,
-        0.75f, -0.75f, 0.0f, 1.0f,
-        -0.75f, -0.75f, 0.0f, 1.0f,
-    };
-
-    glGenVertexArrays( 1, &vertex_array_object );
-    glBindVertexArray( vertex_array_object );
-
-    glGenBuffers( 1, &position_buffer );
-    glBindBuffer( GL_ARRAY_BUFFER, position_buffer );
-
-    glBufferData( GL_ARRAY_BUFFER,
-                  sizeof(vertex_positions),
-                  vertex_positions,
-                  GL_STATIC_DRAW );
-    glEnableVertexAttribArray( 0 );
-    glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 0, 0 );
-    glBindBuffer( GL_ARRAY_BUFFER, 0 );
-
-
+    
     glGenBuffers( 1, &index_buffer );
     glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, index_buffer );
     glBufferData( GL_ELEMENT_ARRAY_BUFFER,
                   sizeof(vertex_indices),
                   vertex_indices,
                   GL_STATIC_DRAW );
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, 0 );
+    
+    
+    const float triangle_vertex_positions[] =
+    {
+         0.75f,  0.75f, 0.0f, 1.0f,
+         0.75f, -0.75f, 0.0f, 1.0f,
+        -0.75f, -0.75f, 0.0f, 1.0f,
+    };
+    
+    glGenBuffers( 1, &triangle_position_buffer );
+    glBindBuffer( GL_ARRAY_BUFFER, triangle_position_buffer );
+
+    glBufferData( GL_ARRAY_BUFFER,
+                  sizeof(triangle_vertex_positions),
+                  triangle_vertex_positions,
+                  GL_STATIC_DRAW );
+    glBindBuffer( GL_ARRAY_BUFFER, 0 );
+
+    
+    glGenVertexArrays( 1, &triangle_vertex_array_object );
+    glBindVertexArray( triangle_vertex_array_object );
+    
+    glBindBuffer( GL_ARRAY_BUFFER, triangle_position_buffer );
+    glEnableVertexAttribArray( 0 );
+    glVertexAttribPointer( 0, 4, GL_FLOAT, GL_FALSE, 0, 0 );
+    glBindBuffer( GL_ARRAY_BUFFER, 0 );
+    
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, index_buffer );
+    
     //
     // We don't need to unbind GL_ELEMENT_ARRAY_BUFFER because the state is
     // contained in the vao now.
     //
 
     glBindVertexArray( 0 );
+    
+    glGenVertexArrays( 1, &fullscreen_vertex_array_object );
+    glBindVertexArray( fullscreen_vertex_array_object );
 
+    glBindBuffer( GL_ELEMENT_ARRAY_BUFFER, index_buffer );
+    //
+    // We don't need to unbind GL_ELEMENT_ARRAY_BUFFER because the state is
+    // contained in the vao now.
+    //
+
+    glBindVertexArray( 0 );
+    
     return true;
 }
 
@@ -216,16 +243,29 @@ int main()
 
     JoeLang::Parameter<JoeMath::float3>* red =
                             effect->GetNamedParameter<JoeMath::float3>( "red" );
-    assert( red );
-
+    if( !red )
+        return 4;
     red->SetParameter( JoeMath::float3(0.85, 0.29, 0.29) );
 
     JoeLang::Parameter<JoeMath::float3x3>* rotate =
                      effect->GetNamedParameter<JoeMath::float3x3>( "rotate" );
-    assert( rotate );
-
-    rotate->SetParameter( JoeMath::Identity<float, 3>() );
-
+    if( !rotate )
+        return 4;
+    
+    JoeLang::Parameter<JoeMath::float3x3>* mirror =
+                     effect->GetNamedParameter<JoeMath::float3x3>( "mirror" );
+    if( !mirror )
+        return 4;
+    mirror->SetParameter( JoeMath::float3x3(-1, 0, 0,
+                                            0,  1, 0,
+                                            0,  0, 1) );
+    
+    JoeLang::Parameter<JoeMath::int2>* window_size =
+                    effect->GetNamedParameter<JoeMath::int2>( "window_size" );
+    if( !window_size )
+        return 4;
+    window_size->SetParameter( {640, 480} );
+    
     std::chrono::high_resolution_clock clock;
     unsigned long long num_frames = 0;
     auto start_time = clock.now();
@@ -243,9 +283,17 @@ int main()
         {
             pass.SetState();
 
-            if( render_scene )
+            if( render_triangle )
             {
-                glBindVertexArray( vertex_array_object );
+                //glBindBuffer( GL_ARRAY_BUFFER, triangle_position_buffer );
+                glBindVertexArray( triangle_vertex_array_object );
+                glDrawElements( GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0 );
+                glBindVertexArray( 0 );
+                glBindBuffer( GL_ARRAY_BUFFER, 0 );
+            }
+            if( render_fullscreen )
+            {
+                glBindVertexArray( fullscreen_vertex_array_object );
                 glDrawElements( GL_TRIANGLES, 3, GL_UNSIGNED_INT, 0 );
                 glBindVertexArray( 0 );
             }
@@ -274,6 +322,5 @@ int main()
 
     ReleaseJoeLang();
 
-    // Terminate GLFW
     glfwTerminate();
 }

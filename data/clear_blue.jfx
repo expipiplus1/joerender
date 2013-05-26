@@ -1,11 +1,12 @@
-float3 red; // this is given as a uniform
-float3 green = float3(0.44, 0.85, 0.29);
-float3 blue  = float3(0.49, 0.65, 0.85);
-float3 black = float3(0,0,0);
 
-//
-// Get a color based on a string
-//
+//------------------------------------------------------------------------------
+// 'Useful' functions and constants
+//------------------------------------------------------------------------------
+const uniform float3 red; // this is given as a uniform
+const   float3 green = float3(0.44, 0.85, 0.29);
+const   float3 blue  = float3(0.49, 0.65, 0.85);
+const   float3 black = float3(0,0,0);
+
 float3 GetColor( const string color_string )
 {
     return color_string == "blue"  ? blue  :
@@ -14,55 +15,93 @@ float3 GetColor( const string color_string )
            black;
 }
 
+//------------------------------------------------------------------------------
+// Shared vertex inputs
+//------------------------------------------------------------------------------
+
 in varying float4 position : POSITION;
 
-in varying float4 wpos : WPOS;
+//------------------------------------------------------------------------------
+// Spinning triangle drawing
+//------------------------------------------------------------------------------
 
-uniform float3x3 rotate;
+const uniform float3x3 rotate;
+const uniform float3x3 mirror;
+const float3x3 identity = float3x3(1,1,1);
 
-float4 VertexMain( float4 mul ) : POSITION
+float4 VertexMain( bool flip ) : POSITION
 {
-    return float4( mul( rotate, position.xyz ), 1) * mul;
+    return float4( mul( flip ? mirror : identity,
+                        mul( rotate, position.xyz ) ), 1);
 }
-
-float2 WindowPosition()
-{
-    return wpos.xy / float2(640,480);
-}
-
-float3 white = 1;
-
-float3 pink = (green + white)/2..xxx;
-float3 purple;
-
-float4 zero = float4(0);
-float4 one  = float4(1..xx, 1, 1.);
 
 float4 PixelMain( bool b ) : COLOR
 {
     return float4( b ? red : blue, 0.5 );
 }
 
-const float4 default_offset = float4(0,0,0,0);
+//------------------------------------------------------------------------------
+// Background pattern
+//------------------------------------------------------------------------------
+
+const uniform int2 window_size;
+in varying float4 wpos : WPOS;
+in varying int    vertex_id : VERTEXID;
+
+float2 WindowPosition()
+{
+    return wpos.xy / window_size;
+}
+
+float4 VertexBackground() : POSITION
+{
+    return float4(float2((vertex_id << 1) & 2, vertex_id & 2) * float2(2,-2) + float2(-1,1), 0, 1);
+}
+
+float4 PixelBackground() : COLOR
+{
+    return float4( 1, WindowPosition(), 1 );
+}
+
+//------------------------------------------------------------------------------
+// The technique
+//------------------------------------------------------------------------------
 
 technique clear_blue
 {
+    //
+    // A pass to clear the background
+    //
     pass clear
     {
-        clear_color = float4( pink, 0 );
-        clear = COLOR;
+        //
+        // Why clear when you can draw a background
+        //
+        //clear_color = float4( pink, 0 );
+        //clear = COLOR;
+        pixel_shader  = compile PixelBackground();
+        vertex_shader = compile VertexBackground();
+        render_fullscreen = true;
     }
+    
+    //
+    // Draw a triangle without mirroring it
+    //
     pass first_triangle
     {
         pixel_shader = compile PixelMain( true );
-        vertex_shader = compile VertexMain( float4(1,1,1,1) );
+        vertex_shader = compile VertexMain( false );
 
-        render_scene = true;
+        render_triangle = true;
     }
+    
+    //
+    // Draw a triangle with mirroring
+    //
     pass second_triangle
     {
         //
-        // Blend this additively
+        // Blend this triangle
         //
         blend_enable = true;
         blend_equation = ADD;
@@ -70,12 +109,8 @@ technique clear_blue
 
         pixel_shader = compile PixelMain( false );
         // flip this triangle in x
-        vertex_shader = compile VertexMain( float4(-1,1,1,1) );
+        vertex_shader = compile VertexMain( true );
 
-        render_scene = true;
-    }
-    pass matrix_state
-    {
-        //matrix_state = float4x4( zero, one, zero, one );
+        render_triangle = true;
     }
 }
