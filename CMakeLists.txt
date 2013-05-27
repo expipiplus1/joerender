@@ -83,6 +83,9 @@ endif()
 include_directories( ${joemath_INCLUDE_DIR} ${joelang_INCLUDE_DIR} ${glfw_INCLUDE_DIR} ${glee_INCLUDE_DIR} )
 
 set( GL_LIBS glfw libgleeStatic ${GLFW_LIBRARIES} )
+if( UNIX AND NOT APPLE )
+    list( APPEND GL_LIBS Xi )
+endif()
 
 target_link_libraries( joerender joelang ${GL_LIBS} )
 
