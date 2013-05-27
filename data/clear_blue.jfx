@@ -77,7 +77,7 @@ technique clear_blue
         //
         // Why clear when you can draw a background
         //
-        //clear_color = float4( pink, 0 );
+        //clear_color = float4( blue, 0 );
         //clear = COLOR;
         pixel_shader  = compile PixelBackground();
         vertex_shader = compile VertexBackground();

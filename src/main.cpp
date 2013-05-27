@@ -6,8 +6,8 @@
 #include <string>
 
 #include <GL/GLee.h>
-#define GLFW_INCLUDE_GLCOREARB
-#include <GL/glfw3.h>
+//#define GLFW_INCLUDE_GLCOREARB
+#include <GLFW/glfw3.h>
 
 #include <joelang/context.hpp>
 #include <joelang/effect.hpp>
@@ -30,7 +30,7 @@ GLuint index_buffer = 0;
 bool render_triangle   = false;
 bool render_fullscreen = false;
 
-void OnKeyInput( GLFWwindow* window, int k, int action )
+void OnKeyInput( GLFWwindow* window, int k, int action, int mods )
 {
   if( action == GLFW_PRESS &&
       ( k == GLFW_KEY_ESCAPE ||
@@ -38,10 +38,19 @@ void OnKeyInput( GLFWwindow* window, int k, int action )
       running = false;
 }
 
-int OnWindowClosed(GLFWwindow* window)
+void OnWindowClosed(GLFWwindow* window)
 {
     running = false;
-    return GL_FALSE;
+}
+
+void OnWindowResize(GLFWwindow* window, int width, int height )
+{
+    JoeLang::Parameter<JoeMath::int2>* window_size = 
+                      effect->GetNamedParameter<JoeMath::int2>( "window_size" );
+    assert( window_size );
+    window_size->SetParameter( JoeMath::int2( width, height ) );
+
+    glViewport(0, 0, width, height);
 }
 
 bool InitializeGL()
@@ -78,6 +87,7 @@ bool InitializeGL()
 
     // Set callback functions
     glfwSetWindowCloseCallback( window, OnWindowClosed );
+    glfwSetWindowSizeCallback( window, OnWindowResize );
     glfwSetKeyCallback( window, OnKeyInput );
 
     glViewport(0, 0, 640, 480);
@@ -117,8 +127,10 @@ bool InitializeJoeLang()
     
     static
     JoeLang::State<bool> render_fullscreen_state( "render_fullscreen" );
-    render_fullscreen_state.SetCallbacks( [](bool b) { render_fullscreen = b; },
-                                          []()       { render_fullscreen = false; } );
+    render_fullscreen_state.SetCallbacks( [](bool b) 
+                                          { render_fullscreen = b; },
+                                          []()   
+                                          { render_fullscreen = false; } );
     context->AddState( &render_fullscreen_state );
    
     static
@@ -276,7 +288,8 @@ int main()
     // Main loop
     while( running )
     {
-        std::chrono::duration<float> seconds = clock.now().time_since_epoch();
+        std::chrono::duration<float> seconds = 
+                            std::chrono::steady_clock::now().time_since_epoch();
         rotate->SetParameter( JoeMath::Rotate2D( seconds.count() ) );
 
         for( const JoeLang::Pass& pass : technique->GetPasses() )
