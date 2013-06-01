@@ -1,22 +1,18 @@
 cmake_minimum_required(VERSION 2.8)
-
-#
-# CMake Policies
-#
 cmake_policy(VERSION 2.8)
 
-#
-# SOURCE_GROUP
-#
+#-------------------------------------------------------------------------------
+# Set up the project
+#-------------------------------------------------------------------------------
 project( joerender )
 
-set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/")
+set( CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} "${CMAKE_SOURCE_DIR}/cmake/Modules/" )
 
 
-#
+#-------------------------------------------------------------------------------
 # Uninstall operation
 # defined here to stop any of the submodules defining it
-#
+#-------------------------------------------------------------------------------
 if( NOT TARGET uninstall )
     configure_file( ${joerender_SOURCE_DIR}/cmake/uninstall.cmake.in
                     ${joerender_BINARY_DIR}/uninstall.cmake IMMEDIATE @ONLY )
@@ -26,52 +22,59 @@ if( NOT TARGET uninstall )
                        ${joerender_BINARY_DIR}/uninstall.cmake )
 endif( )
 
-#
-# load libraries
-#
+#-------------------------------------------------------------------------------
+# Grab all the required libraries
+#-------------------------------------------------------------------------------
+
 find_package( OpenGL REQUIRED )
-
-set( joemath_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/joemath/include" )
-
-set( joelang_INCLUDE_DIR "${CMAKE_SOURCE_DIR}/joelang/include" )
-set( JOELANG_WITH_OPENGL ON )
-
-set( glfw_INCLUDE_DIR    "${CMAKE_SOURCE_DIR}/glfw/include" )
-
-set( glee_INCLUDE_DIR    "${CMAKE_SOURCE_DIR}/glee/include" )
-
-#
-# submodules
-#
-
-add_subdirectory( glfw EXCLUDE_FROM_ALL )
-
-add_subdirectory( glee EXCLUDE_FROM_ALL )
+list( APPEND JOERENDER_INTERNAL_INCLUDE_DIRS ${OPENGL_INCLUDE_DIR} )
+list( APPEND JOERENDER_INTERNAL_LIBS ${OPENGL_gl_LIB} )
 
 add_subdirectory( joemath EXCLUDE_FROM_ALL )
+set( JOEMATH_INCLUDE_DIR "${CMAKE_CURRENT_SOURCE_DIR}/joemath/include" )
+list( APPEND JOERENDER_INTERNAL_INCLUDE_DIRS ${JOEMATH_INCLUDE_DIR} )
 
+add_subdirectory( glfw EXCLUDE_FROM_ALL )
+set( GLFW_INCLUDE_DIR    "${CMAKE_SOURCE_DIR}/glfw/include" )
+list( APPEND JOERENDER_INTERNAL_INCLUDE_DIRS ${GLFW_INCLUDE_DIR} )
+
+add_subdirectory( glee EXCLUDE_FROM_ALL )
+set( GLEE_INCLUDE_DIR    "${CMAKE_SOURCE_DIR}/glee/include" )
+set( GLEE_LIB libgleeStatic )
+list( APPEND JOERENDER_INTERNAL_INCLUDE_DIRS ${GLEE_INCLUDE_DIR} )
+
+set( JOELANG_WITH_OPENGL ON )
 add_subdirectory( joelang EXCLUDE_FROM_ALL )
+get_property( JOELANG_INCLUDE_DIRS GLOBAL PROPERTY JOELANG_INCLUDE_DIRS )
+get_property( JOELANG_LIBRARY_DIRS GLOBAL PROPERTY JOELANG_LIBRARY_DIRS )
+get_property( JOELANG_LIBS GLOBAL PROPERTY JOELANG_LIBS )
+list( APPEND JOERENDER_INTERNAL_INCLUDE_DIRS ${JOELANG_INCLUDE_DIRS} )
+list( APPEND JOERENDER_LIBRARY_DIRS ${JOELANG_LIBRARY_DIRS} )
+list( APPEND JOERENDER_LIBS ${JOELANG_LIBS} )
 
-set( joerender_LIBRARY_DIRS ${joelang_LIBRARY_DIRS} )
-link_directories( ${joerender_LIBRARY_DIRS} )
+link_directories( ${JOERENDER_LIBRARY_DIRS} )
 
-#
-# CXX flags
-#
+set( GL_LIBS glfw ${GLEE_LIB} ${GLFW_LIBRARIES} )
+if( UNIX AND NOT APPLE )
+    list( APPEND GL_LIBS Xi )
+endif()
+ 
+list( APPEND JOERENDER_LIBS ${GL_LIBS} )
 
-# because joemath is a header only library we include the flags here
-set( joerender_CXX_FLAGS "${joemath_CXX_FLAGS} -Wall -std=c++11 -fno-exceptions -g" CACHE STRING "joerender compiler flags" )
-set( joerender_CXX_FLAGS_RELEASE "${joemath_CXX_FLAGS_RELEASE} -Wall -std=c++11 -fno-exceptions -O4" CACHE STRING "joerender compiler flags" )
-set( CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${joerender_CXX_FLAGS}" )
-set( CMAKE_CXX_FLAGS_RELEASE "${CMAKE_CXX_FLAGS_RELEASE} ${joerender_CXX_FLAGS_RELEASE}" )
+add_definitions( -Wall )
+add_definitions( -fno-exceptions )
+set( CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -std=c++11 )
 
-#
+
+#-------------------------------------------------------------------------------
 # Create the main engine
-#
+#-------------------------------------------------------------------------------
 
 set( joerender_sources    src/main.cpp )
 
 set( joerender_data_dir   data )
+
+include_directories( ${JOERENDER_INTERNAL_INCLUDE_DIRS} ${JOERENDER_INCLUDE_DIRS} )
 
 if( APPLE )
     add_executable( joerender MACOSX_BUNDLE ${joerender_sources} )
@@ -80,18 +83,11 @@ else()
     add_executable( joerender ${joerender_sources} )
 endif()
 
-include_directories( ${joemath_INCLUDE_DIR} ${joelang_INCLUDE_DIR} ${glfw_INCLUDE_DIR} ${glee_INCLUDE_DIR} )
+target_link_libraries( joerender ${JOERENDER_LIBS} )
 
-set( GL_LIBS glfw libgleeStatic ${GLFW_LIBRARIES} )
-if( UNIX AND NOT APPLE )
-    list( APPEND GL_LIBS Xi )
-endif()
-
-target_link_libraries( joerender joelang ${GL_LIBS} )
-
-#
-# Various custom commands
-#
+#-------------------------------------------------------------------------------
+# copy the effect files
+#-------------------------------------------------------------------------------
 
 add_custom_command(
     OUTPUT ${CMAKE_CURRENT_BINARY_DIR}/data/clear_blue.jfx
