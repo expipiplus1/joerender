@@ -30,9 +30,9 @@ GLuint index_buffer = 0;
 bool render_triangle = false;
 bool render_fullscreen = false;
 
-void OnKeyInput( GLFWwindow* window, int k, int action, int mods )
+void OnKeyInput( GLFWwindow* window, int key, int scancode, int action, int mods )
 {
-    if( action == GLFW_PRESS && ( k == GLFW_KEY_ESCAPE || k == 'Q' ) )
+    if( action == GLFW_PRESS && ( key == GLFW_KEY_ESCAPE || key == 'Q' ) )
         running = false;
 }
 
@@ -311,8 +311,7 @@ int main()
               << 1000 * delta_time.count() / num_frames << "ms)\n";
 
     delete context;
-    
     glfwTerminate();
     
-    return 1;    
+    return 0;
 }
