@@ -67,6 +67,15 @@ list( APPEND JOERENDER_LIBS ${GL_LIBS} )
 
 set( joerender_sources    src/main.cpp )
 
+macro( ide_source_properties sources )
+    foreach( source ${ARGV} )
+        get_filename_component( source_group_path ${source} PATH )
+        string( REPLACE "/" "\\\\" source_group_path ${source_group_path} )
+        source_group( ${source_group_path} FILES ${source} )
+    endforeach()
+endmacro()
+ide_source_properties( ${joerender_sources} )
+
 set_source_files_properties( ${joerender_sources} PROPERTIES COMPILE_FLAGS "-std=c++11 -Wall" )
 
 set( joerender_data_dir   data )
