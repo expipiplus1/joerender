@@ -1,3 +1,16 @@
+float f()
+{
+    return 2;
+}
+
+int fib( int n )
+{
+    if( n <= 1 )
+        return n;
+    else
+        return fib( n - 1 ) + fib( n - 2 );
+        //return 0;
+}
 
 //------------------------------------------------------------------------------
 // 'Useful' functions and constants
@@ -64,11 +77,37 @@ float4 PixelBackground() : COLOR
 }
 
 //------------------------------------------------------------------------------
+// Simple shaders
+//------------------------------------------------------------------------------
+
+float4 SimplePixel() : COLOR
+{
+    return float4( float3(0.44, 0.65, 0.29), 1 );
+}
+
+float4 SimpleVertex() : POSITION
+{
+    return position;
+}
+
+//------------------------------------------------------------------------------
 // The technique
 //------------------------------------------------------------------------------
 
 technique clear_blue
 {
+    pass
+    {
+        //float_state = fib( 1 );     
+        //float_state = fib( 2 );     
+        //float_state = fib( 3 );     
+        //float_state = fib( 4 );     
+        //float_state = fib( 5 );     
+        //float_state = fib( 6 );     
+        //float_state = fib( 7 );     
+        //float_state = fib( 8 );     
+    }
+    
     //
     // A pass to clear the background
     //
@@ -77,11 +116,12 @@ technique clear_blue
         //
         // Why clear when you can draw a background
         //
-        //clear_color = float4( blue, 0 );
-        //clear = COLOR;
+        clear_color = float4( blue, 0 );
+        clear = COLOR;
         pixel_shader  = compile PixelBackground();
-        vertex_shader = compile VertexBackground();
-        render_fullscreen = true;
+        vertex_shader = compile SimplePixel();
+        //vertex_shader = compile VertexBackground();
+        render_fullscreen = true;    
     }
     
     //
@@ -89,8 +129,9 @@ technique clear_blue
     //
     pass first_triangle
     {
-        pixel_shader = compile PixelMain( true );
-        vertex_shader = compile VertexMain( false );
+        // todo rename to fragment shader
+        //pixel_shader = compile PixelMain( true );
+        //vertex_shader = compile VertexMain( false );
 
         render_triangle = true;
     }
@@ -107,10 +148,13 @@ technique clear_blue
         blend_equation = ADD;
         blend_func = uint2(SRC_ALPHA, ONE_MINUS_SRC_ALPHA);
 
-        pixel_shader = compile PixelMain( false );
+        //pixel_shader = compile PixelMain( false );
         // flip this triangle in x
-        vertex_shader = compile VertexMain( true );
+        //vertex_shader = compile VertexMain( true );
 
+        pixel_shader = compile SimplePixel();
+        vertex_shader = compile SimpleVertex();
+        
         render_triangle = true;
     }
 }
