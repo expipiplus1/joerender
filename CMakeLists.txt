@@ -61,16 +61,13 @@ endif()
  
 list( APPEND JOERENDER_LIBS ${GL_LIBS} )
 
-add_definitions( -Wall )
-add_definitions( -fno-exceptions )
-set( CMAKE_CXX_FLAGS ${CMAKE_CXX_FLAGS} -std=c++11 )
-
-
 #-------------------------------------------------------------------------------
 # Create the main engine
 #-------------------------------------------------------------------------------
 
 set( joerender_sources    src/main.cpp )
+
+set_source_files_properties( ${joerender_sources} PROPERTIES COMPILE_FLAGS "-std=c++11 -Wall" )
 
 set( joerender_data_dir   data )
 
