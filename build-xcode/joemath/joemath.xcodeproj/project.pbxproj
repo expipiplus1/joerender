@@ -1,0 +1,122 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXFileReference section */
+		12BA7D1917888343000CFAB1 /* matrix-inl.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "matrix-inl.hpp"; sourceTree = "<group>"; };
+		12BA7D1A17888343000CFAB1 /* scalar-inl.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = "scalar-inl.hpp"; sourceTree = "<group>"; };
+		12BA7D1B17888343000CFAB1 /* joemath.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = joemath.hpp; sourceTree = "<group>"; };
+		12BA7D1C17888343000CFAB1 /* matrix.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = matrix.hpp; sourceTree = "<group>"; };
+		12BA7D1D17888343000CFAB1 /* matrix_traits.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = matrix_traits.hpp; sourceTree = "<group>"; };
+		12BA7D1E17888343000CFAB1 /* scalar.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = scalar.hpp; sourceTree = "<group>"; };
+		12BA7D1F17888343000CFAB1 /* types.hpp */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.cpp.h; path = types.hpp; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		12BA7D1617888343000CFAB1 /* include */ = {
+			isa = PBXGroup;
+			children = (
+				12BA7D1717888343000CFAB1 /* joemath */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		12BA7D1717888343000CFAB1 /* joemath */ = {
+			isa = PBXGroup;
+			children = (
+				12BA7D1817888343000CFAB1 /* inl */,
+				12BA7D1B17888343000CFAB1 /* joemath.hpp */,
+				12BA7D1C17888343000CFAB1 /* matrix.hpp */,
+				12BA7D1D17888343000CFAB1 /* matrix_traits.hpp */,
+				12BA7D1E17888343000CFAB1 /* scalar.hpp */,
+				12BA7D1F17888343000CFAB1 /* types.hpp */,
+			);
+			path = joemath;
+			sourceTree = "<group>";
+		};
+		12BA7D1817888343000CFAB1 /* inl */ = {
+			isa = PBXGroup;
+			children = (
+				12BA7D1917888343000CFAB1 /* matrix-inl.hpp */,
+				12BA7D1A17888343000CFAB1 /* scalar-inl.hpp */,
+			);
+			path = inl;
+			sourceTree = "<group>";
+		};
+		FA8B15DB04214B858BC06C0D = {
+			isa = PBXGroup;
+			children = (
+				12BA7D1617888343000CFAB1 /* include */,
+			);
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXProject section */
+		ABE99D4628B643F9BFA834BD /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+			};
+			buildConfigurationList = 9017FA3C93904E28A9D5E961 /* Build configuration list for PBXProject "joemath" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = FA8B15DB04214B858BC06C0D;
+			projectDirPath = ../../joemath;
+			projectRoot = "";
+			targets = (
+			);
+		};
+/* End PBXProject section */
+
+/* Begin XCBuildConfiguration section */
+		1E4F995E5D5A45BFB9D91C3F /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = RelWithDebInfo;
+		};
+		2B439317B4934A0A8DAFB513 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Release;
+		};
+		AB455BABD0FE4597B5E3FBB9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = Debug;
+		};
+		DC7F39A86FB146D98754A166 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+			};
+			name = MinSizeRel;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		9017FA3C93904E28A9D5E961 /* Build configuration list for PBXProject "joemath" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				AB455BABD0FE4597B5E3FBB9 /* Debug */,
+				2B439317B4934A0A8DAFB513 /* Release */,
+				DC7F39A86FB146D98754A166 /* MinSizeRel */,
+				1E4F995E5D5A45BFB9D91C3F /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = ABE99D4628B643F9BFA834BD /* Project object */;
+}

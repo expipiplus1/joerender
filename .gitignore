@@ -1,4 +1,7 @@
 build/*
+build-xcode/Build/*
 CMakeLists.txt.user
 *.autosave
 *.swp
+xcuserdata
+.DS_Store

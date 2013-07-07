@@ -1,0 +1,309 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		3479B232BEAD4CEDA8E556A0 /* assert.c in Sources */ = {isa = PBXBuildFile; fileRef = 6D316229CB644ED9A215455F /* assert.c */; settings = {COMPILER_FLAGS = ""; }; };
+		4AFD606AFA5345C6B6BD8FC7 /* eval.c in Sources */ = {isa = PBXBuildFile; fileRef = 3F73C2FA5B914D3788BEC1E5 /* eval.c */; settings = {COMPILER_FLAGS = ""; }; };
+		4C5707FF62F340819B5A4665 /* mem.c in Sources */ = {isa = PBXBuildFile; fileRef = 1D9A0940C27F429C9C408067 /* mem.c */; settings = {COMPILER_FLAGS = ""; }; };
+		7600B351B7D24CFA8645B78F /* nhash.c in Sources */ = {isa = PBXBuildFile; fileRef = AFD183876FE54E79814F8DCA /* nhash.c */; settings = {COMPILER_FLAGS = ""; }; };
+		9A0725B914E348EAA7D13F4E /* macro.c in Sources */ = {isa = PBXBuildFile; fileRef = 410B8263724A42478CBF9249 /* macro.c */; settings = {COMPILER_FLAGS = ""; }; };
+		A26061E84BCF48818AF911ED /* lexer.c in Sources */ = {isa = PBXBuildFile; fileRef = 05FA611073264CF89AE93174 /* lexer.c */; settings = {COMPILER_FLAGS = ""; }; };
+		D4956B7B747640EE8377991F /* cpp.c in Sources */ = {isa = PBXBuildFile; fileRef = FF1BAE62A5B3445EBFBA761E /* cpp.c */; settings = {COMPILER_FLAGS = ""; }; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		05FA611073264CF89AE93174 /* lexer.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; path = lexer.c; sourceTree = SOURCE_ROOT; };
+		1D9A0940C27F429C9C408067 /* mem.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; path = mem.c; sourceTree = SOURCE_ROOT; };
+		1E333709D59840788B05BA3E /* mem.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = mem.h; sourceTree = SOURCE_ROOT; };
+		3F73C2FA5B914D3788BEC1E5 /* eval.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; path = eval.c; sourceTree = SOURCE_ROOT; };
+		410B8263724A42478CBF9249 /* macro.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; path = macro.c; sourceTree = SOURCE_ROOT; };
+		481611324FC049039212D710 /* nhash.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = nhash.h; sourceTree = SOURCE_ROOT; };
+		56AC07B3D2794493BF18AC99 /* arith.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = arith.h; sourceTree = SOURCE_ROOT; };
+		6120F39FAC914AB797985255 /* libucpp.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libucpp.a; sourceTree = BUILT_PRODUCTS_DIR; };
+		6D316229CB644ED9A215455F /* assert.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; path = assert.c; sourceTree = SOURCE_ROOT; };
+		845847CF0F394ADCB859075F /* arith.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; path = arith.c; sourceTree = SOURCE_ROOT; };
+		A95F39A3C97C46E89450E181 /* ucppi.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = ucppi.h; sourceTree = SOURCE_ROOT; };
+		AFD183876FE54E79814F8DCA /* nhash.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; path = nhash.c; sourceTree = SOURCE_ROOT; };
+		BFB7EA1779FF45B5B12EFD3E /* cpp.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; path = cpp.h; sourceTree = SOURCE_ROOT; };
+		EC15FAC293A94F10B3FC3454 /* config.h */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.h; fileEncoding = 4; name = config.h; path = "../../build-xcode/joelang/ucpp/config.h"; sourceTree = SOURCE_ROOT; };
+		FF1BAE62A5B3445EBFBA761E /* cpp.c */ = {isa = PBXFileReference; explicitFileType = sourcecode.c.c; fileEncoding = 4; path = cpp.c; sourceTree = SOURCE_ROOT; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		41386C1388E841C18B0C7EB1 /* ucpp */ = {
+			isa = PBXGroup;
+			children = (
+				DBECAD329D514C5E96466B80 /* Source Files */,
+				FFAB6EE8818F471B946809E2 /* Header Files */,
+			);
+			name = ucpp;
+			sourceTree = "<group>";
+		};
+		43D168CF19A44EE996C551EB = {
+			isa = PBXGroup;
+			children = (
+				41386C1388E841C18B0C7EB1 /* ucpp */,
+				6F2FE802D7BB4618B108242C /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6F2FE802D7BB4618B108242C /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6120F39FAC914AB797985255 /* libucpp.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		DBECAD329D514C5E96466B80 /* Source Files */ = {
+			isa = PBXGroup;
+			children = (
+				845847CF0F394ADCB859075F /* arith.c */,
+				6D316229CB644ED9A215455F /* assert.c */,
+				FF1BAE62A5B3445EBFBA761E /* cpp.c */,
+				3F73C2FA5B914D3788BEC1E5 /* eval.c */,
+				05FA611073264CF89AE93174 /* lexer.c */,
+				410B8263724A42478CBF9249 /* macro.c */,
+				1D9A0940C27F429C9C408067 /* mem.c */,
+				AFD183876FE54E79814F8DCA /* nhash.c */,
+			);
+			name = "Source Files";
+			sourceTree = "<group>";
+		};
+		FFAB6EE8818F471B946809E2 /* Header Files */ = {
+			isa = PBXGroup;
+			children = (
+				EC15FAC293A94F10B3FC3454 /* config.h */,
+				56AC07B3D2794493BF18AC99 /* arith.h */,
+				BFB7EA1779FF45B5B12EFD3E /* cpp.h */,
+				1E333709D59840788B05BA3E /* mem.h */,
+				481611324FC049039212D710 /* nhash.h */,
+				A95F39A3C97C46E89450E181 /* ucppi.h */,
+			);
+			name = "Header Files";
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		7842464037D44AA685D68991 /* ucpp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 3FB5113D750647A0BFE8F919 /* Build configuration list for PBXNativeTarget "ucpp" */;
+			buildPhases = (
+				140D6BA609804A81BC475988 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = ucpp;
+			productName = ucpp;
+			productReference = 6120F39FAC914AB797985255 /* libucpp.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		589FF645CC96474AAF9CAC70 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+			};
+			buildConfigurationList = E844C61B74F946CDAD0E6285 /* Build configuration list for PBXProject "ucpp" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = 43D168CF19A44EE996C551EB;
+			projectDirPath = ../../../joelang/ucpp;
+			projectRoot = "";
+			targets = (
+				7842464037D44AA685D68991 /* ucpp */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		140D6BA609804A81BC475988 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				3479B232BEAD4CEDA8E556A0 /* assert.c in Sources */,
+				D4956B7B747640EE8377991F /* cpp.c in Sources */,
+				4AFD606AFA5345C6B6BD8FC7 /* eval.c in Sources */,
+				A26061E84BCF48818AF911ED /* lexer.c in Sources */,
+				9A0725B914E348EAA7D13F4E /* macro.c in Sources */,
+				4C5707FF62F340819B5A4665 /* mem.c in Sources */,
+				7600B351B7D24CFA8645B78F /* nhash.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		17CD35DBCBF9472CA73D5676 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				OTHER_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-ansi",
+					"-DNDEBUG",
+				);
+				PRODUCT_NAME = ucpp;
+			};
+			name = RelWithDebInfo;
+		};
+		30BBFE90746C42A4ABB00553 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = s;
+				OTHER_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-ansi",
+					"-DNDEBUG",
+				);
+				PRODUCT_NAME = ucpp;
+			};
+			name = MinSizeRel;
+		};
+		381BC9AF9A7D4E47A1020C43 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk;
+			};
+			name = MinSizeRel;
+		};
+		69F3A852877A4144896DD020 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				OTHER_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-ansi",
+					"-DNDEBUG",
+					"-W",
+					"-Wall",
+					"-ansi",
+					"-mcpu=pentiumpro",
+					"-fomit-frame-pointer",
+					"-DMEM_CHECK",
+				);
+				PRODUCT_NAME = ucpp;
+			};
+			name = Release;
+		};
+		90EFF8E6A1FB4D07AD462951 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk;
+			};
+			name = RelWithDebInfo;
+		};
+		BCB2BBA1F3794187B071A38A /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = YES;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				OTHER_CFLAGS = (
+					"-W",
+					"-Wall",
+					"-ansi",
+					"-W",
+					"-Wall",
+					"-ansi",
+					"-DAUDIT",
+					"-DMEM_DEBUG",
+				);
+				PRODUCT_NAME = ucpp;
+			};
+			name = Debug;
+		};
+		F29B5C0BA94F470E873F9EA9 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk;
+			};
+			name = Debug;
+		};
+		FB5D3624DB9C4C4792E10923 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				CLANG_CXX_LANGUAGE_STANDARD = "c++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		3FB5113D750647A0BFE8F919 /* Build configuration list for PBXNativeTarget "ucpp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				BCB2BBA1F3794187B071A38A /* Debug */,
+				69F3A852877A4144896DD020 /* Release */,
+				30BBFE90746C42A4ABB00553 /* MinSizeRel */,
+				17CD35DBCBF9472CA73D5676 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E844C61B74F946CDAD0E6285 /* Build configuration list for PBXProject "ucpp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				F29B5C0BA94F470E873F9EA9 /* Debug */,
+				FB5D3624DB9C4C4792E10923 /* Release */,
+				381BC9AF9A7D4E47A1020C43 /* MinSizeRel */,
+				90EFF8E6A1FB4D07AD462951 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 589FF645CC96474AAF9CAC70 /* Project object */;
+}

@@ -1,0 +1,234 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		12EAE5A917898AFA00AB3BDE /* GLee.c in Sources */ = {isa = PBXBuildFile; fileRef = 12EAE5A717898AFA00AB3BDE /* GLee.c */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXFileReference section */
+		12EAE5A417898AE700AB3BDE /* GLee.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GLee.h; sourceTree = "<group>"; };
+		12EAE5A717898AFA00AB3BDE /* GLee.c */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.c; path = GLee.c; sourceTree = "<group>"; };
+		26FB580E4D2345F5A7176CE4 /* libglee.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; path = libglee.a; sourceTree = BUILT_PRODUCTS_DIR; };
+/* End PBXFileReference section */
+
+/* Begin PBXGroup section */
+		12EAE5A217898AE700AB3BDE /* include */ = {
+			isa = PBXGroup;
+			children = (
+				12EAE5A317898AE700AB3BDE /* GL */,
+			);
+			path = include;
+			sourceTree = "<group>";
+		};
+		12EAE5A317898AE700AB3BDE /* GL */ = {
+			isa = PBXGroup;
+			children = (
+				12EAE5A417898AE700AB3BDE /* GLee.h */,
+			);
+			path = GL;
+			sourceTree = "<group>";
+		};
+		12EAE5A517898AFA00AB3BDE /* output */ = {
+			isa = PBXGroup;
+			children = (
+				12EAE5A717898AFA00AB3BDE /* GLee.c */,
+			);
+			name = output;
+			path = DATA/output;
+			sourceTree = "<group>";
+		};
+		A2B56BD401364EABB84CCAFA = {
+			isa = PBXGroup;
+			children = (
+				12EAE5A517898AFA00AB3BDE /* output */,
+				12EAE5A217898AE700AB3BDE /* include */,
+				EE5BCFDB9E934BB5A1E81B7E /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		EE5BCFDB9E934BB5A1E81B7E /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				26FB580E4D2345F5A7176CE4 /* libglee.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6DF46BD76A664001AC1F87C6 /* glee */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = B4EE0A67327242E4B96F69AC /* Build configuration list for PBXNativeTarget "glee" */;
+			buildPhases = (
+				5EE595E655A747FFAC7B91C2 /* Sources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = glee;
+			productName = libgleeStatic;
+			productReference = 26FB580E4D2345F5A7176CE4 /* libglee.a */;
+			productType = "com.apple.product-type.library.static";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		0FFB8E183D5D4C25AB1B9225 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = YES;
+			};
+			buildConfigurationList = E2C5017BA78D4ACFAA1579D1 /* Build configuration list for PBXProject "glee" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+			);
+			mainGroup = A2B56BD401364EABB84CCAFA;
+			projectDirPath = ../../glee;
+			projectRoot = "";
+			targets = (
+				6DF46BD76A664001AC1F87C6 /* glee */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXSourcesBuildPhase section */
+		5EE595E655A747FFAC7B91C2 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				12EAE5A917898AFA00AB3BDE /* GLee.c in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin XCBuildConfiguration section */
+		3FD26D7AB05E4B6397E3C2C3 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk;
+			};
+			name = MinSizeRel;
+		};
+		64A00405B3D74F718995BA2E /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				GCC_GENERATE_DEBUGGING_SYMBOLS = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk;
+			};
+			name = Release;
+		};
+		98F38EF49E164517BBFBF13D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				HEADER_SEARCH_PATHS = ../glee/include;
+				PRODUCT_NAME = glee;
+			};
+			name = Debug;
+		};
+		A75CEC0E4DFA47CD93368898 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk;
+			};
+			name = RelWithDebInfo;
+		};
+		C0BCE67A631048788D908CF6 /* RelWithDebInfo */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_OPTIMIZATION_LEVEL = 2;
+				HEADER_SEARCH_PATHS = ../glee/include;
+				PRODUCT_NAME = glee;
+			};
+			name = RelWithDebInfo;
+		};
+		C1BA0D1BA5D144EAAD9D347D /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ARCHS = "$(ARCHS_STANDARD_32_64_BIT)";
+				GCC_ENABLE_CPP_EXCEPTIONS = NO;
+				GCC_ENABLE_CPP_RTTI = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = NO;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = /Applications/Xcode.app/Contents/Developer/Platforms/MacOSX.platform/Developer/SDKs/MacOSX10.8.sdk;
+			};
+			name = Debug;
+		};
+		C5F95DBA98814B69AB394941 /* MinSizeRel */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_OPTIMIZATION_LEVEL = s;
+				HEADER_SEARCH_PATHS = ../glee/include;
+				PRODUCT_NAME = glee;
+			};
+			name = MinSizeRel;
+		};
+		DE7DB30BAFEC4847A2323663 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_OPTIMIZATION_LEVEL = 3;
+				HEADER_SEARCH_PATHS = ../glee/include;
+				PRODUCT_NAME = glee;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		B4EE0A67327242E4B96F69AC /* Build configuration list for PBXNativeTarget "glee" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				98F38EF49E164517BBFBF13D /* Debug */,
+				DE7DB30BAFEC4847A2323663 /* Release */,
+				C5F95DBA98814B69AB394941 /* MinSizeRel */,
+				C0BCE67A631048788D908CF6 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+		E2C5017BA78D4ACFAA1579D1 /* Build configuration list for PBXProject "glee" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				C1BA0D1BA5D144EAAD9D347D /* Debug */,
+				64A00405B3D74F718995BA2E /* Release */,
+				3FD26D7AB05E4B6397E3C2C3 /* MinSizeRel */,
+				A75CEC0E4DFA47CD93368898 /* RelWithDebInfo */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Debug;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 0FFB8E183D5D4C25AB1B9225 /* Project object */;
+}
